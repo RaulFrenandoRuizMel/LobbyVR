@@ -23,11 +23,13 @@ public class SelectorPuertas : MonoBehaviour
 
     // Control derecho del Quest
     private InputDevice controlDerecho;
+    private HoverPuerta hoverActual;
 
 
     void Start()
     {
         BuscarControlDerecho();
+        ActualizarHoverAutomatico();
     }
 
 
@@ -52,6 +54,47 @@ public class SelectorPuertas : MonoBehaviour
     // BUSCAR CONTROL DERECHO
     // -------------------------------------------------------
 
+    void ActualizarHoverAutomatico()
+    {
+        // Apagar hover anterior
+        if (hoverActual != null)
+        {
+            hoverActual.DesactivarHover();
+            hoverActual = null;
+        }
+
+        if (focos == null ||
+            focos.Length == 0 ||
+            indiceActual < 0 ||
+            indiceActual >= focos.Length ||
+            focos[indiceActual] == null)
+        {
+            return;
+        }
+
+        // Buscar HoverPuerta automáticamente
+        // en el padre del Focus seleccionado.
+        hoverActual =
+            focos[indiceActual]
+            .GetComponentInParent<HoverPuerta>();
+
+        if (hoverActual != null)
+        {
+            hoverActual.ActivarHover();
+
+            Debug.Log(
+                "HOVER -> " +
+                hoverActual.gameObject.name
+            );
+        }
+        else
+        {
+            Debug.Log(
+                "Sin HoverPuerta en " +
+                focos[indiceActual].name
+            );
+        }
+    }
     void BuscarControlDerecho()
     {
         controlDerecho =
@@ -136,6 +179,7 @@ public class SelectorPuertas : MonoBehaviour
         {
             indiceActual = 0;
         }
+        ActualizarHoverAutomatico();
 
         PrepararGiroHacia(indiceActual);
 
@@ -162,6 +206,7 @@ public class SelectorPuertas : MonoBehaviour
             indiceActual = focos.Length - 1;
         }
 
+        ActualizarHoverAutomatico();
         PrepararGiroHacia(indiceActual);
 
         Debug.Log(
