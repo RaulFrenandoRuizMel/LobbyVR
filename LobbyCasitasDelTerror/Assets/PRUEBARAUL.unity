@@ -296,8 +296,6 @@ MonoBehaviour:
   - {fileID: 1877535700}
   - {fileID: 1284174785}
   - {fileID: 1042498381}
-  hoverPuertas:
-  - {fileID: 5270124412727427023}
   velocidadGiro: 120
   deadZone: 0.6
 --- !u!4 &71224486
@@ -1379,11 +1377,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.019761961, y: 0.019999998, z: 0.019999996}
   m_Center: {x: -0.000119016506, y: 0, z: 0}
---- !u!1 &427487695 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5808591874877893066, guid: ee7fc763f819dff44869ecb7fe21c99f, type: 3}
-  m_PrefabInstance: {fileID: 5270124412727427021}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &432492738
 GameObject:
   m_ObjectHideFlags: 0
@@ -1865,11 +1858,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.017850796, y: 0.017850794, z: 0.139052}
   m_Center: {x: 0, y: 0, z: 0.06573039}
---- !u!1 &927833852 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1516867258502591806, guid: ee7fc763f819dff44869ecb7fe21c99f, type: 3}
-  m_PrefabInstance: {fileID: 5270124412727427021}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &953945160
 GameObject:
   m_ObjectHideFlags: 0
@@ -5451,33 +5439,13 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2545382053540222413, guid: ee7fc763f819dff44869ecb7fe21c99f, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1652574638}
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 5808591874877893066, guid: ee7fc763f819dff44869ecb7fe21c99f, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 5270124412727427023}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ee7fc763f819dff44869ecb7fe21c99f, type: 3}
 --- !u!4 &5270124412727427022 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2545382053540222413, guid: ee7fc763f819dff44869ecb7fe21c99f, type: 3}
   m_PrefabInstance: {fileID: 5270124412727427021}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &5270124412727427023
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 427487695}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec79b83e1ce03e8419b026ff1604bca2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::HoverPuerta
-  puertaVisual: {fileID: 927833852}
-  colorHover: {r: 1, g: 0.15, b: 0.02, a: 1}
-  intensidadEmision: 6
-  escalaHover: 1.03
-  velocidadEscala: 6
 --- !u!1001 &5438307253301492301
 PrefabInstance:
   m_ObjectHideFlags: 0

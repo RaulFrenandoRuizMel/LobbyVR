@@ -10,54 +10,36 @@ public class SelectorPuertas : MonoBehaviour
     [Header("Puertas / Focus")]
     public Transform[] focos;
 
-    [Header("Hover de Puertas")]
-    public HoverPuerta[] hoverPuertas;
-
     [Header("Configuracion")]
     public float velocidadGiro = 120f;
     public float deadZone = 0.6f;
-
 
     private int indiceActual = 0;
 
     private bool joystickLiberado = true;
     private bool girando = false;
 
-    private bool botonALiberado = true;
-
     private float anguloObjetivo;
 
+    // Control derecho del Quest
     private InputDevice controlDerecho;
 
-
-    // =====================================================
-    // START
-    // =====================================================
 
     void Start()
     {
         BuscarControlDerecho();
-
-        ActualizarHover();
     }
 
 
-    // =====================================================
-    // UPDATE
-    // =====================================================
-
     void Update()
     {
+        // Si pierde conexión, intenta recuperarlo.
         if (!controlDerecho.isValid)
         {
             BuscarControlDerecho();
         }
 
-
         LeerJoystickDerecho();
-
-        LeerBotonA();
-
 
         if (girando)
         {
@@ -66,9 +48,9 @@ public class SelectorPuertas : MonoBehaviour
     }
 
 
-    // =====================================================
-    // CONTROL DERECHO
-    // =====================================================
+    // -------------------------------------------------------
+    // BUSCAR CONTROL DERECHO
+    // -------------------------------------------------------
 
     void BuscarControlDerecho()
     {
@@ -76,7 +58,6 @@ public class SelectorPuertas : MonoBehaviour
             InputDevices.GetDeviceAtXRNode(
                 XRNode.RightHand
             );
-
 
         if (controlDerecho.isValid)
         {
@@ -94,14 +75,13 @@ public class SelectorPuertas : MonoBehaviour
     }
 
 
-    // =====================================================
-    // JOYSTICK DERECHO
-    // =====================================================
+    // -------------------------------------------------------
+    // LEER JOYSTICK DERECHO
+    // -------------------------------------------------------
 
     void LeerJoystickDerecho()
     {
         Vector2 joystick;
-
 
         bool recibido =
             controlDerecho.TryGetFeatureValue(
@@ -109,12 +89,12 @@ public class SelectorPuertas : MonoBehaviour
                 out joystick
             );
 
-
         if (!recibido)
             return;
 
 
-        // Joystick vuelve al centro
+        // Cuando regresa al centro permite
+        // seleccionar otra puerta.
         if (Mathf.Abs(joystick.x) < 0.2f)
         {
             joystickLiberado = true;
@@ -129,87 +109,35 @@ public class SelectorPuertas : MonoBehaviour
         if (joystick.x > deadZone)
         {
             SiguientePuerta();
-
             joystickLiberado = false;
         }
-
 
         // IZQUIERDA
         else if (joystick.x < -deadZone)
         {
             PuertaAnterior();
-
             joystickLiberado = false;
         }
     }
 
 
-    // =====================================================
-    // BOTON A
-    // =====================================================
-
-    void LeerBotonA()
-    {
-        bool botonA;
-
-
-        bool recibido =
-            controlDerecho.TryGetFeatureValue(
-                CommonUsages.primaryButton,
-                out botonA
-            );
-
-
-        if (!recibido)
-            return;
-
-
-        if (!botonA)
-        {
-            botonALiberado = true;
-        }
-
-
-        if (botonA && botonALiberado)
-        {
-            botonALiberado = false;
-
-            ConfirmarPuerta();
-        }
-    }
-
-
-    // =====================================================
+    // -------------------------------------------------------
     // SIGUIENTE PUERTA
-    // =====================================================
+    // -------------------------------------------------------
 
     void SiguientePuerta()
     {
-        if (focos == null ||
-            focos.Length == 0)
-        {
+        if (focos == null || focos.Length == 0)
             return;
-        }
-
 
         indiceActual++;
-
 
         if (indiceActual >= focos.Length)
         {
             indiceActual = 0;
         }
 
-
-        // HOVER
-        ActualizarHover();
-
-
-        // GIRO
-        PrepararGiroHacia(
-            indiceActual
-        );
-
+        PrepararGiroHacia(indiceActual);
 
         Debug.Log(
             "Puerta seleccionada: " +
@@ -218,38 +146,23 @@ public class SelectorPuertas : MonoBehaviour
     }
 
 
-    // =====================================================
+    // -------------------------------------------------------
     // PUERTA ANTERIOR
-    // =====================================================
+    // -------------------------------------------------------
 
     void PuertaAnterior()
     {
-        if (focos == null ||
-            focos.Length == 0)
-        {
+        if (focos == null || focos.Length == 0)
             return;
-        }
-
 
         indiceActual--;
 
-
         if (indiceActual < 0)
         {
-            indiceActual =
-                focos.Length - 1;
+            indiceActual = focos.Length - 1;
         }
 
-
-        // HOVER
-        ActualizarHover();
-
-
-        // GIRO
-        PrepararGiroHacia(
-            indiceActual
-        );
-
+        PrepararGiroHacia(indiceActual);
 
         Debug.Log(
             "Puerta seleccionada: " +
@@ -258,85 +171,17 @@ public class SelectorPuertas : MonoBehaviour
     }
 
 
-    // =====================================================
-    // ACTUALIZAR HOVER
-    // =====================================================
+    // -------------------------------------------------------
+    // CALCULAR GIRO HACIA PUERTA
+    // -------------------------------------------------------
 
-    void ActualizarHover()
+    void PrepararGiroHacia(int indice)
     {
-        if (hoverPuertas == null)
-            return;
-
-
-        // Apagar TODAS
-        for (int i = 0;
-             i < hoverPuertas.Length;
-             i++)
-        {
-            if (hoverPuertas[i] != null)
-            {
-                hoverPuertas[i]
-                    .DesactivarHover();
-            }
-        }
-
-
-        // Encender SOLO la seleccionada
-        if (
-            indiceActual >= 0 &&
-            indiceActual <
-            hoverPuertas.Length &&
-            hoverPuertas[indiceActual]
-            != null
-        )
-        {
-            hoverPuertas[indiceActual]
-                .ActivarHover();
-        }
-
-
-        Debug.Log(
-            "Hover aplicado a Puerta " +
-            (indiceActual + 1)
-        );
-    }
-
-
-    // =====================================================
-    // CONFIRMAR CON A
-    // =====================================================
-
-    void ConfirmarPuerta()
-    {
-        Debug.Log(
-            "PUERTA CONFIRMADA: " +
-            (indiceActual + 1)
-        );
-
-
-        // DESPUES:
-        // mano al visor
-        // sonido
-        // blackout
-        // cargar escena
-    }
-
-
-    // =====================================================
-    // PREPARAR GIRO
-    // =====================================================
-
-    void PrepararGiroHacia(
-        int indice
-    )
-    {
-        if (
-            xrOrigin == null ||
+        if (xrOrigin == null ||
             mainCamera == null ||
             focos == null ||
             focos.Length == 0 ||
-            focos[indice] == null
-        )
+            focos[indice] == null)
         {
             return;
         }
@@ -346,23 +191,17 @@ public class SelectorPuertas : MonoBehaviour
             focos[indice].position -
             mainCamera.position;
 
-
         direccionPuerta.y = 0f;
 
 
         Vector3 direccionCamara =
             mainCamera.forward;
 
-
         direccionCamara.y = 0f;
 
 
-        if (
-            direccionPuerta
-            .sqrMagnitude < 0.001f ||
-            direccionCamara
-            .sqrMagnitude < 0.001f
-        )
+        if (direccionPuerta.sqrMagnitude < 0.001f ||
+            direccionCamara.sqrMagnitude < 0.001f)
         {
             return;
         }
@@ -385,25 +224,22 @@ public class SelectorPuertas : MonoBehaviour
     }
 
 
-    // =====================================================
-    // GIRAR SIN MOVER AL JUGADOR
-    // =====================================================
+    // -------------------------------------------------------
+    // GIRAR SIN CAMBIAR POSICION DE LA CABEZA
+    // -------------------------------------------------------
 
     void GirarHaciaObjetivo()
     {
-        if (
-            xrOrigin == null ||
-            mainCamera == null
-        )
+        if (xrOrigin == null ||
+            mainCamera == null)
         {
             girando = false;
-
             return;
         }
 
 
-        // Guardar posicion exacta
-        // del visor.
+        // Guardamos exactamente dónde está
+        // la cabeza en el mundo.
         Vector3 posicionCabezaAntes =
             mainCamera.position;
 
@@ -421,7 +257,7 @@ public class SelectorPuertas : MonoBehaviour
             );
 
 
-        // Rotar solamente en Y
+        // Solo rotamos en Y.
         xrOrigin.rotation =
             Quaternion.Euler(
                 0f,
@@ -430,14 +266,14 @@ public class SelectorPuertas : MonoBehaviour
             );
 
 
-        // Compensar movimiento
+        // Compensamos cualquier desplazamiento
+        // producido por la rotación del XR Origin.
         Vector3 compensacion =
             posicionCabezaAntes -
             mainCamera.position;
 
 
-        xrOrigin.position +=
-            compensacion;
+        xrOrigin.position += compensacion;
 
 
         float restante =
@@ -451,6 +287,7 @@ public class SelectorPuertas : MonoBehaviour
 
         if (restante < 0.5f)
         {
+            // Corrección final.
             Vector3 cabezaAntesFinal =
                 mainCamera.position;
 
