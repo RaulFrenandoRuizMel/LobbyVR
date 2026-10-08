@@ -21,21 +21,18 @@ public class SelectorPuertas : MonoBehaviour
 
     private float anguloObjetivo;
 
-    // Control derecho del Quest
+    // Control derecho Quest
     private InputDevice controlDerecho;
-    private HoverPuerta hoverActual;
 
 
     void Start()
     {
         BuscarControlDerecho();
-        ActualizarHoverAutomatico();
     }
 
 
     void Update()
     {
-        // Si pierde conexión, intenta recuperarlo.
         if (!controlDerecho.isValid)
         {
             BuscarControlDerecho();
@@ -54,47 +51,6 @@ public class SelectorPuertas : MonoBehaviour
     // BUSCAR CONTROL DERECHO
     // -------------------------------------------------------
 
-    void ActualizarHoverAutomatico()
-    {
-        // Apagar hover anterior
-        if (hoverActual != null)
-        {
-            hoverActual.DesactivarHover();
-            hoverActual = null;
-        }
-
-        if (focos == null ||
-            focos.Length == 0 ||
-            indiceActual < 0 ||
-            indiceActual >= focos.Length ||
-            focos[indiceActual] == null)
-        {
-            return;
-        }
-
-        // Buscar HoverPuerta automáticamente
-        // en el padre del Focus seleccionado.
-        hoverActual =
-            focos[indiceActual]
-            .GetComponentInParent<HoverPuerta>();
-
-        if (hoverActual != null)
-        {
-            hoverActual.ActivarHover();
-
-            Debug.Log(
-                "HOVER -> " +
-                hoverActual.gameObject.name
-            );
-        }
-        else
-        {
-            Debug.Log(
-                "Sin HoverPuerta en " +
-                focos[indiceActual].name
-            );
-        }
-    }
     void BuscarControlDerecho()
     {
         controlDerecho =
@@ -136,8 +92,7 @@ public class SelectorPuertas : MonoBehaviour
             return;
 
 
-        // Cuando regresa al centro permite
-        // seleccionar otra puerta.
+        // Joystick regreso al centro
         if (Mathf.Abs(joystick.x) < 0.2f)
         {
             joystickLiberado = true;
@@ -179,12 +134,11 @@ public class SelectorPuertas : MonoBehaviour
         {
             indiceActual = 0;
         }
-        ActualizarHoverAutomatico();
 
         PrepararGiroHacia(indiceActual);
 
         Debug.Log(
-            "Puerta seleccionada: " +
+            "Enfocando puerta: " +
             (indiceActual + 1)
         );
     }
@@ -206,11 +160,10 @@ public class SelectorPuertas : MonoBehaviour
             indiceActual = focos.Length - 1;
         }
 
-        ActualizarHoverAutomatico();
         PrepararGiroHacia(indiceActual);
 
         Debug.Log(
-            "Puerta seleccionada: " +
+            "Enfocando puerta: " +
             (indiceActual + 1)
         );
     }
@@ -270,7 +223,7 @@ public class SelectorPuertas : MonoBehaviour
 
 
     // -------------------------------------------------------
-    // GIRAR SIN CAMBIAR POSICION DE LA CABEZA
+    // GIRAR SIN MOVER LA CABEZA
     // -------------------------------------------------------
 
     void GirarHaciaObjetivo()
@@ -283,8 +236,6 @@ public class SelectorPuertas : MonoBehaviour
         }
 
 
-        // Guardamos exactamente dónde está
-        // la cabeza en el mundo.
         Vector3 posicionCabezaAntes =
             mainCamera.position;
 
@@ -302,7 +253,6 @@ public class SelectorPuertas : MonoBehaviour
             );
 
 
-        // Solo rotamos en Y.
         xrOrigin.rotation =
             Quaternion.Euler(
                 0f,
@@ -311,12 +261,10 @@ public class SelectorPuertas : MonoBehaviour
             );
 
 
-        // Compensamos cualquier desplazamiento
-        // producido por la rotación del XR Origin.
+        // Mantener cabeza en la misma posición
         Vector3 compensacion =
             posicionCabezaAntes -
             mainCamera.position;
-
 
         xrOrigin.position += compensacion;
 
@@ -332,7 +280,6 @@ public class SelectorPuertas : MonoBehaviour
 
         if (restante < 0.5f)
         {
-            // Corrección final.
             Vector3 cabezaAntesFinal =
                 mainCamera.position;
 
