@@ -155,12 +155,13 @@ public class LaserPuertas : MonoBehaviour
                 {
                     abrirPuerta.Abrir();
                 }
-                else
+                ManoHorror manoHorror =hoverActual.GetComponent<ManoHorror>();
+
+                if (manoHorror != null)
                 {
-                    Debug.LogWarning(
-                        "La puerta no tiene el script AbrirPuerta."
-                    );
+                    manoHorror.IniciarSecuencia();
                 }
+
             }
         }
     }
