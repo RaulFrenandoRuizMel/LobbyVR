@@ -60,6 +60,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: logoCasitas
       objectReference: {fileID: 0}
+    - target: {fileID: 8209654051649485559, guid: ba1f9b785d1269640aea7182bea545ea, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 53afa78510ffe7b4f93fbe493d5df5b9, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
