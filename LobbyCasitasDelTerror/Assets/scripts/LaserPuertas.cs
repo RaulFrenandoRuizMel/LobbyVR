@@ -14,9 +14,11 @@ public class LaserPuertas : MonoBehaviour
 
     private InputDevice controlDerecho;
 
-    // Evita que A se active muchas veces
-    // mientras lo mantienes presionado.
     private bool botonALiberado = true;
+
+    // Cuando ya elegimos una puerta,
+    // esto queda en true para siempre.
+    private bool seleccionBloqueada = false;
 
 
     void Start()
@@ -27,7 +29,6 @@ public class LaserPuertas : MonoBehaviour
 
     void Update()
     {
-        // Si pierde el control, lo busca otra vez.
         if (!controlDerecho.isValid)
         {
             BuscarControlDerecho();
@@ -58,8 +59,18 @@ public class LaserPuertas : MonoBehaviour
 
     void DetectarPuertaConLaser()
     {
+        // Si ya elegimos una puerta,
+        // nunca más activamos hover.
+        if (seleccionBloqueada)
+        {
+            ApagarHover();
+            return;
+        }
+
+
         if (origenLaser == null)
             return;
+
 
         RaycastHit hit;
 
@@ -73,14 +84,12 @@ public class LaserPuertas : MonoBehaviour
         );
 
 
-        // Si estamos apuntando a un Focus
         if (golpeo)
         {
             HoverPuerta nuevoHover =
                 hit.collider.GetComponentInParent<HoverPuerta>();
 
 
-            // Si cambiamos de puerta
             if (nuevoHover != hoverActual)
             {
                 ApagarHover();
@@ -98,8 +107,6 @@ public class LaserPuertas : MonoBehaviour
                 }
             }
         }
-
-        // Si ya no apuntamos a ninguna puerta
         else
         {
             ApagarHover();
@@ -125,7 +132,8 @@ public class LaserPuertas : MonoBehaviour
             return;
 
 
-        // Soltaste A
+        // Cuando soltamos A,
+        // permitimos detectar otra pulsacion.
         if (!botonA)
         {
             botonALiberado = true;
@@ -133,35 +141,74 @@ public class LaserPuertas : MonoBehaviour
         }
 
 
-        // Presionaste A
         if (botonA && botonALiberado)
         {
             botonALiberado = false;
 
 
-            // IMPORTANTE:
-            // A solamente funciona si existe un hover activo.
-            if (hoverActual != null)
+            // Ya seleccionamos una puerta.
+            if (seleccionBloqueada)
+                return;
+
+
+            // A solo funciona mientras existe hover.
+            if (hoverActual == null)
+                return;
+
+
+            // Guardamos la puerta antes
+            // de apagar el hover.
+            HoverPuerta puertaConfirmada =
+                hoverActual;
+
+
+            Debug.Log(
+                "PUERTA CONFIRMADA CON A -> " +
+                puertaConfirmada.gameObject.name
+            );
+
+
+            // ---------------------------------------------
+            // BLOQUEAR SELECCION
+            // ---------------------------------------------
+
+            seleccionBloqueada = true;
+
+
+            // Quitamos inmediatamente el amarillo.
+            puertaConfirmada.DesactivarHover();
+
+            hoverActual = null;
+
+
+            Debug.Log(
+                "SELECCION DE PUERTAS BLOQUEADA"
+            );
+
+
+            // ---------------------------------------------
+            // ABRIR PUERTA
+            // ---------------------------------------------
+
+            AbrirPuerta abrirPuerta =
+                puertaConfirmada.GetComponent<AbrirPuerta>();
+
+            if (abrirPuerta != null)
             {
-                Debug.Log(
-                    "PUERTA CONFIRMADA CON A -> " +
-                    hoverActual.gameObject.name
-                );
+                abrirPuerta.Abrir();
+            }
 
-                AbrirPuerta abrirPuerta =
-                    hoverActual.GetComponent<AbrirPuerta>();
 
-                if (abrirPuerta != null)
-                {
-                    abrirPuerta.Abrir();
-                }
-                ManoHorror manoHorror =hoverActual.GetComponent<ManoHorror>();
+            // ---------------------------------------------
+            // MANO HORROR
+            // ---------------------------------------------
 
-                if (manoHorror != null)
-                {
-                    manoHorror.IniciarSecuencia();
-                }
+            ManoHorror manoHorror =
+                puertaConfirmada.GetComponent<ManoHorror>();
 
+            if (manoHorror != null)
+            {
+                manoHorror.IniciarSecuencia();
             }
         }
     }
