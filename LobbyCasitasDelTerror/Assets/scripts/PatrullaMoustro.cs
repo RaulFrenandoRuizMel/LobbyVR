@@ -11,11 +11,16 @@ public class PatrullaMonstruo : MonoBehaviour
     public float velocidadGiro = 120f;
     public float distanciaLlegada = 0.15f;
 
-    [Header("Evento en B")]
+    [Header("Evento de mirada en B")]
     public Transform puntoMirada;
     public Animator animatorMonstruo;
     public MiradaMonstruo miradaMonstruo;
+
     public float tiempoMirando = 3f;
+    public float tiempoRegresoCabeza = 1.2f;
+
+    [Header("Sonido de cadenas")]
+    public AudioSource audioCadenas;
 
     private int indiceActual = 0;
     private bool pausado = false;
@@ -23,10 +28,29 @@ public class PatrullaMonstruo : MonoBehaviour
     void Start()
     {
         if (puntos == null || puntos.Length == 0)
+        {
+            Debug.LogWarning("PatrullaMonstruo: No hay puntos asignados.");
             return;
+        }
 
+        // Empieza exactamente en A
         transform.position = puntos[0].position;
+
+        // Primer destino = B
         indiceActual = 1;
+
+        // Cabeza normal al iniciar
+        if (miradaMonstruo != null)
+            miradaMonstruo.mirar = false;
+
+        // Cadenas sonando constantemente mientras patrulla
+        if (audioCadenas != null)
+        {
+            audioCadenas.loop = true;
+
+            if (!audioCadenas.isPlaying)
+                audioCadenas.Play();
+        }
     }
 
     void Update()
@@ -39,11 +63,16 @@ public class PatrullaMonstruo : MonoBehaviour
 
         Transform destino = puntos[indiceActual];
 
+        if (destino == null)
+            return;
+
+        // =========================
+        // GIRAR HACIA EL DESTINO
+        // =========================
+
         Vector3 direccion = destino.position - transform.position;
         direccion.y = 0f;
 
-        // Esto SÍ gira todo el cuerpo,
-        // pero solamente mientras camina entre puntos.
         if (direccion.sqrMagnitude > 0.001f)
         {
             Quaternion rotacionObjetivo =
@@ -56,6 +85,10 @@ public class PatrullaMonstruo : MonoBehaviour
             );
         }
 
+        // =========================
+        // CAMINAR
+        // =========================
+
         Vector3 posicionObjetivo = destino.position;
         posicionObjetivo.y = transform.position.y;
 
@@ -65,9 +98,18 @@ public class PatrullaMonstruo : MonoBehaviour
             velocidad * Time.deltaTime
         );
 
-        if (Vector3.Distance(transform.position, posicionObjetivo)
-            <= distanciaLlegada)
+        // =========================
+        // LLEGADA AL PUNTO
+        // =========================
+
+        float distancia = Vector3.Distance(
+            transform.position,
+            posicionObjetivo
+        );
+
+        if (distancia <= distanciaLlegada)
         {
+            // Cada vez que llega a B:
             if (destino == puntoMirada)
             {
                 StartCoroutine(EventoMirada());
@@ -83,27 +125,38 @@ public class PatrullaMonstruo : MonoBehaviour
     {
         pausado = true;
 
-        // Detenemos la caminata.
+        // Detener animación
         if (animatorMonstruo != null)
             animatorMonstruo.speed = 0f;
 
-        // SOLO la cabeza mira al jugador.
+        // SILENCIO cuando te mira
+        if (audioCadenas != null)
+            audioCadenas.Pause();
+
+        // Solo cabeza hacia jugador
         if (miradaMonstruo != null)
             miradaMonstruo.mirar = true;
 
+        // Te observa
         yield return new WaitForSeconds(tiempoMirando);
 
-        // La cabeza vuelve suavemente.
+        // Cabeza regresa
         if (miradaMonstruo != null)
             miradaMonstruo.mirar = false;
 
-        // Le damos un poco de tiempo para regresar.
-        yield return new WaitForSeconds(1.2f);
+        yield return new WaitForSeconds(tiempoRegresoCabeza);
 
+        // Siguiente destino
+        SiguientePunto();
+
+        // Reanudar caminata
         if (animatorMonstruo != null)
             animatorMonstruo.speed = 1f;
 
-        SiguientePunto();
+        // Continúan las cadenas desde donde iban
+        if (audioCadenas != null)
+            audioCadenas.UnPause();
+
         pausado = false;
     }
 
