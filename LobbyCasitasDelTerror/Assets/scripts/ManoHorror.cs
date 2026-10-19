@@ -1,142 +1,377 @@
 using System.Collections;
 using UnityEngine;
 
+
 public class ManoHorror : MonoBehaviour
 {
+    // =====================================================
+    // REFERENCIAS
+    // =====================================================
+
     [Header("Referencias")]
+
     public GameObject mano;
+
     public Transform puntoSalida;
+
     public Transform puntoArrastre;
+
     public Transform mainCamera;
+
     public Transform xrOrigin;
 
+
+    // =====================================================
+    // PALMA / VISOR
+    // =====================================================
+
+    [Header("Contacto de la mano")]
+
+    public Transform puntoPalma;
+
+
+    [Header("Agarre al visor")]
+
+    public Transform puntoAgarreVisor;
+
+
+    // =====================================================
+    // BRAZO
+    // =====================================================
+
+    [Header("Brazo")]
+
+    public Transform huesoEstirar;
+
+
+    [Tooltip(
+        "1 = mano normal. " +
+        "Mayor de 1 = brazo estirado."
+    )]
+    public float escalaMaximaBrazo = 1f;
+
+
+    // =====================================================
+    // ORIENTACION
+    // =====================================================
+
+    [Header("Orientacion")]
+
+    public Vector3 offsetRotacionMano =
+        Vector3.zero;
+
+
+    // =====================================================
+    // SALIDA
+    // =====================================================
+
     [Header("Salida de la mano")]
-    public float esperaAntesDeSalir = 0.5f;
-    public float velocidadEstiramiento = 8f;
-    public float distanciaDelVisor = 0.18f;
+
+    public float esperaAntesDeSalir =
+        0.5f;
+
+
+    public float velocidadEstiramiento =
+        4f;
+
+
+    // =====================================================
+    // ARRASTRE
+    // =====================================================
 
     [Header("Arrastre")]
-    public float esperaAlAgarrar = 0.15f;
-    public float velocidadArrastre = 3.5f;
-    public float distanciaFinal = 0.25f;
 
-    [Header("Forma de la mano")]
-    public float largoMinimo = 0.15f;
+    public float esperaAlAgarrar =
+        0.3f;
 
-    private bool secuenciaIniciada = false;
 
-    private Vector3 escalaOriginal;
+    public float velocidadArrastre =
+        3.5f;
 
+
+    public float distanciaFinal =
+        0.25f;
+
+
+    // =====================================================
+    // DESTINO DE ESTA PUERTA
+    // =====================================================
+
+    [Header("Juego al terminar")]
+
+    [Tooltip(
+        "Arrastra aqui el objeto global LanzadorJuegos."
+    )]
+    public LanzadorJuegoPCVR lanzadorJuego;
+
+
+    [Tooltip(
+        "TU eliges aqui que juego abre ESTA puerta."
+    )]
+    public LanzadorJuegoPCVR.DestinoPCVR destinoJuego =
+        LanzadorJuegoPCVR.DestinoPCVR.Equipo1;
+
+
+    public float esperaAntesDeAbrirJuego =
+        0.5f;
+
+
+    // =====================================================
+    // PRIVADAS
+    // =====================================================
+
+    private bool secuenciaIniciada =
+        false;
+
+
+    private Vector3 escalaOriginalHueso;
+
+
+    private MeshRenderer rendererCubito;
+
+
+    // =====================================================
+    // START
+    // =====================================================
 
     void Start()
     {
+        if (huesoEstirar != null)
+        {
+            escalaOriginalHueso =
+                huesoEstirar.localScale;
+        }
+
+
         if (mano != null)
         {
-            escalaOriginal = mano.transform.localScale;
-            mano.SetActive(false);
+            rendererCubito =
+                mano.GetComponent<MeshRenderer>();
+
+
+            if (rendererCubito != null)
+            {
+                rendererCubito.enabled =
+                    false;
+            }
+
+
+            mano.SetActive(
+                false
+            );
         }
     }
 
+
+    // =====================================================
+    // INICIAR
+    // =====================================================
 
     public void IniciarSecuencia()
     {
         if (secuenciaIniciada)
             return;
 
-        secuenciaIniciada = true;
 
-        StartCoroutine(SecuenciaHorror());
+        secuenciaIniciada =
+            true;
+
+
+        StartCoroutine(
+            SecuenciaHorror()
+        );
     }
 
 
+    // =====================================================
+    // SECUENCIA
+    // =====================================================
+
     IEnumerator SecuenciaHorror()
     {
-        yield return new WaitForSeconds(
-            esperaAntesDeSalir
-        );
+        // -------------------------------------------------
+        // ESPERA
+        // -------------------------------------------------
 
+        yield return
+            new WaitForSeconds(
+                esperaAntesDeSalir
+            );
+
+
+        // -------------------------------------------------
+        // VALIDAR
+        // -------------------------------------------------
 
         if (mano == null ||
             puntoSalida == null ||
             puntoArrastre == null ||
             mainCamera == null ||
-            xrOrigin == null)
+            xrOrigin == null ||
+            puntoPalma == null ||
+            puntoAgarreVisor == null ||
+            huesoEstirar == null)
         {
             Debug.LogWarning(
-                "Faltan referencias en ManoHorror."
+                "FALTAN REFERENCIAS EN ManoHorror"
             );
+
 
             yield break;
         }
 
 
-        // -------------------------------------------------
-        // 1. MANO APARECE EN LA PUERTA
-        // -------------------------------------------------
+        // =================================================
+        // 1. APARECER
+        // =================================================
 
-        mano.SetActive(true);
-
-        Vector3 puntaActual =
+        mano.transform.position =
             puntoSalida.position;
 
-        Debug.Log("MANO EMPEZANDO A ESTIRARSE");
+
+        mano.SetActive(
+            true
+        );
 
 
-        // -------------------------------------------------
-        // 2. ESTIRAR HASTA EL VISOR
-        // -------------------------------------------------
+        if (rendererCubito != null)
+        {
+            rendererCubito.enabled =
+                false;
+        }
+
+
+        huesoEstirar.localScale =
+            escalaOriginalHueso;
+
+
+        Debug.Log(
+            "MANO APARECIO"
+        );
+
+
+        float distanciaInicial =
+            Vector3.Distance(
+                puntoSalida.position,
+                puntoAgarreVisor.position
+            );
+
+
+        // =================================================
+        // 2. IR HACIA EL VISOR
+        // =================================================
 
         while (true)
         {
             Vector3 objetivoVisor =
-                mainCamera.position +
-                mainCamera.forward *
-                distanciaDelVisor;
+                puntoAgarreVisor.position;
 
 
-            puntaActual =
+            OrientarMano(
+                objetivoVisor
+            );
+
+
+            Vector3 siguientePosicionPalma =
                 Vector3.MoveTowards(
-                    puntaActual,
+                    puntoPalma.position,
                     objetivoVisor,
                     velocidadEstiramiento *
                     Time.deltaTime
                 );
 
 
-            ActualizarMano(
-                puntoSalida.position,
-                puntaActual
+            Vector3 desplazamiento =
+                siguientePosicionPalma -
+                puntoPalma.position;
+
+
+            mano.transform.position +=
+                desplazamiento;
+
+
+            // ---------------------------------------------
+            // BRAZO
+            // ---------------------------------------------
+
+            float distanciaRecorrida =
+                Vector3.Distance(
+                    puntoSalida.position,
+                    puntoPalma.position
+                );
+
+
+            float progreso =
+                Mathf.Clamp01(
+                    distanciaRecorrida /
+                    Mathf.Max(
+                        distanciaInicial,
+                        0.001f
+                    )
+                );
+
+
+            EstirarBrazo(
+                progreso
             );
 
 
-            float distancia =
+            // ---------------------------------------------
+            // ¿LLEGO?
+            // ---------------------------------------------
+
+            float distanciaPalma =
                 Vector3.Distance(
-                    puntaActual,
+                    puntoPalma.position,
                     objetivoVisor
                 );
 
 
-            if (distancia < 0.03f)
+            if (distanciaPalma <=
+                0.015f)
+            {
                 break;
+            }
 
 
             yield return null;
         }
 
 
-        Debug.Log("MANO AGARRO EL VISOR");
-
-
-        yield return new WaitForSeconds(
-            esperaAlAgarrar
+        Debug.Log(
+            "PALMA AGARRO EL VISOR"
         );
 
 
-        // -------------------------------------------------
-        // 3. ARRASTRAR JUGADOR HACIA LA PUERTA
-        // -------------------------------------------------
+        // =================================================
+        // 3. CLAVAR PALMA AL VISOR
+        // =================================================
 
-        Debug.Log("ARRASTRANDO JUGADOR");
+        mano.transform.position +=
+            puntoAgarreVisor.position -
+            puntoPalma.position;
+
+
+        yield return
+            new WaitForSeconds(
+                esperaAlAgarrar
+            );
+
+
+        float distanciaBrazoAlAgarrar =
+            Vector3.Distance(
+                puntoSalida.position,
+                puntoPalma.position
+            );
+
+
+        // =================================================
+        // 4. JALAR JUGADOR
+        // =================================================
+
+        Debug.Log(
+            "ARRASTRANDO JUGADOR"
+        );
 
 
         while (true)
@@ -145,7 +380,7 @@ public class ManoHorror : MonoBehaviour
                 mainCamera.position;
 
 
-            Vector3 destino =
+            Vector3 destinoArrastre =
                 new Vector3(
                     puntoArrastre.position.x,
                     cabeza.y,
@@ -153,42 +388,83 @@ public class ManoHorror : MonoBehaviour
                 );
 
 
-            float distancia =
+            float distanciaJugador =
                 Vector3.Distance(
                     cabeza,
-                    destino
+                    destinoArrastre
                 );
 
 
-            if (distancia <= distanciaFinal)
+            if (distanciaJugador <=
+                distanciaFinal)
+            {
                 break;
+            }
 
+
+            // ---------------------------------------------
+            // MOVER XR ORIGIN
+            // ---------------------------------------------
 
             Vector3 nuevaCabeza =
                 Vector3.MoveTowards(
                     cabeza,
-                    destino,
+                    destinoArrastre,
                     velocidadArrastre *
                     Time.deltaTime
                 );
 
 
             xrOrigin.position +=
-                nuevaCabeza - cabeza;
+                nuevaCabeza -
+                cabeza;
 
 
-            // La punta sigue pegada al visor.
-            // Como el jugador se acerca a la puerta,
-            // la mano se va encogiendo automáticamente.
+            // ---------------------------------------------
+            // MANTENER PALMA EN EL VISOR
+            // ---------------------------------------------
+
             Vector3 objetivoVisor =
-                mainCamera.position +
-                mainCamera.forward *
-                distanciaDelVisor;
+                puntoAgarreVisor.position;
 
 
-            ActualizarMano(
-                puntoSalida.position,
+            Vector3 correccionPalma =
+                objetivoVisor -
+                puntoPalma.position;
+
+
+            mano.transform.position +=
+                correccionPalma;
+
+
+            OrientarMano(
                 objetivoVisor
+            );
+
+
+            // ---------------------------------------------
+            // AJUSTAR BRAZO
+            // ---------------------------------------------
+
+            float distanciaBrazoActual =
+                Vector3.Distance(
+                    puntoSalida.position,
+                    puntoPalma.position
+                );
+
+
+            float progresoBrazo =
+                Mathf.Clamp01(
+                    distanciaBrazoActual /
+                    Mathf.Max(
+                        distanciaBrazoAlAgarrar,
+                        0.001f
+                    )
+                );
+
+
+            EstirarBrazo(
+                progresoBrazo
             );
 
 
@@ -196,75 +472,122 @@ public class ManoHorror : MonoBehaviour
         }
 
 
+        // =================================================
+        // 5. TERMINO EL JALON
+        // =================================================
+
         Debug.Log(
             "JUGADOR LLEGO A LA PUERTA"
         );
+
+
+        Debug.Log(
+            "MANOHORROR DE ESTA PUERTA PIDE: " +
+            destinoJuego
+        );
+
+
+        yield return
+            new WaitForSeconds(
+                esperaAntesDeAbrirJuego
+            );
+
+
+        // =================================================
+        // 6. LANZAR DESTINO DE ESTA PUERTA
+        // =================================================
+
+        if (lanzadorJuego != null)
+        {
+            Debug.Log(
+                "ENVIANDO AL LANZADOR: " +
+                destinoJuego
+            );
+
+
+            // *********************************************
+            // ESTA ES LA LINEA IMPORTANTE
+            // *********************************************
+
+            lanzadorJuego.LanzarJuego(
+                destinoJuego
+            );
+        }
+        else
+        {
+            Debug.LogError(
+                "NO HAY LanzadorJuegoPCVR " +
+                "ASIGNADO EN ESTA PUERTA"
+            );
+        }
     }
 
 
-    // -------------------------------------------------
-    // ESTIRAR MANO ENTRE DOS PUNTOS
-    // -------------------------------------------------
+    // =====================================================
+    // ORIENTACION
+    // =====================================================
 
-    void ActualizarMano(
-        Vector3 inicio,
-        Vector3 fin
+    void OrientarMano(
+        Vector3 objetivo
     )
     {
         Vector3 direccion =
-            fin - inicio;
+            objetivo -
+            puntoSalida.position;
 
 
-        float distancia =
-            direccion.magnitude;
-
-
-        if (distancia < 0.001f)
+        if (direccion.sqrMagnitude <
+            0.001f)
+        {
             return;
+        }
 
 
-        // Centro entre puerta y visor
-        mano.transform.position =
-            inicio +
-            direccion * 0.5f;
-
-
-        // La mano apunta hacia el visor
-        mano.transform.rotation =
+        Quaternion rotacionObjetivo =
             Quaternion.LookRotation(
                 direccion.normalized,
                 Vector3.up
             );
 
 
-        // Mantener grosor X/Y.
-        // Solo estiramos Z.
+        mano.transform.rotation =
+            rotacionObjetivo *
+            Quaternion.Euler(
+                offsetRotacionMano
+            );
+    }
+
+
+    // =====================================================
+    // BRAZO
+    // =====================================================
+
+    void EstirarBrazo(
+        float progreso
+    )
+    {
+        if (huesoEstirar == null)
+            return;
+
+
         Vector3 escala =
-            escalaOriginal;
+            escalaOriginalHueso;
 
 
-        float escalaPadreZ = 1f;
-
-        if (mano.transform.parent != null)
-        {
-            escalaPadreZ =
-                Mathf.Abs(
-                    mano.transform.parent.lossyScale.z
-                );
-
-            if (escalaPadreZ < 0.001f)
-                escalaPadreZ = 1f;
-        }
-
-
-        escala.z =
-            Mathf.Max(
-                largoMinimo,
-                distancia / escalaPadreZ
+        float multiplicador =
+            Mathf.Lerp(
+                1f,
+                escalaMaximaBrazo,
+                progreso
             );
 
 
-        mano.transform.localScale =
+        escala.y =
+            escalaOriginalHueso.y *
+            multiplicador;
+
+
+        huesoEstirar.localScale =
             escala;
     }
 }
