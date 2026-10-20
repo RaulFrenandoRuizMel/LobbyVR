@@ -44,11 +44,8 @@ public class ManoHorror : MonoBehaviour
     public Transform huesoEstirar;
 
 
-    [Tooltip(
-        "1 = mano normal. " +
-        "Mayor de 1 = brazo estirado."
-    )]
-    public float escalaMaximaBrazo = 1f;
+    public float escalaMaximaBrazo =
+        1f;
 
 
     // =====================================================
@@ -97,19 +94,13 @@ public class ManoHorror : MonoBehaviour
     // DESTINO DE ESTA PUERTA
     // =====================================================
 
-    [Header("Juego al terminar")]
+    [Header("Destino de esta puerta")]
 
     [Tooltip(
-        "Arrastra aqui el objeto global LanzadorJuegos."
+        "Normalmente se detecta automáticamente " +
+        "del hijo DestinoJuego."
     )]
-    public LanzadorJuegoPCVR lanzadorJuego;
-
-
-    [Tooltip(
-        "TU eliges aqui que juego abre ESTA puerta."
-    )]
-    public LanzadorJuegoPCVR.DestinoPCVR destinoJuego =
-        LanzadorJuegoPCVR.DestinoPCVR.Equipo1;
+    public DestinoJuegoPuerta destinoPuerta;
 
 
     public float esperaAntesDeAbrirJuego =
@@ -136,12 +127,51 @@ public class ManoHorror : MonoBehaviour
 
     void Start()
     {
+        // -------------------------------------------------
+        // BUSCAR AUTOMÁTICAMENTE EL DESTINO HIJO
+        // -------------------------------------------------
+
+        if (destinoPuerta == null)
+        {
+            destinoPuerta =
+                GetComponentInChildren
+                <DestinoJuegoPuerta>(
+                    true
+                );
+        }
+
+
+        if (destinoPuerta != null)
+        {
+            Debug.Log(
+                gameObject.name +
+                " DETECTO SU DESTINO: " +
+                destinoPuerta.gameObject.name
+            );
+        }
+        else
+        {
+            Debug.LogError(
+                gameObject.name +
+                " NO TIENE DestinoJuegoPuerta COMO HIJO"
+            );
+        }
+
+
+        // -------------------------------------------------
+        // HUESO
+        // -------------------------------------------------
+
         if (huesoEstirar != null)
         {
             escalaOriginalHueso =
                 huesoEstirar.localScale;
         }
 
+
+        // -------------------------------------------------
+        // MANO
+        // -------------------------------------------------
 
         if (mano != null)
         {
@@ -164,7 +194,7 @@ public class ManoHorror : MonoBehaviour
 
 
     // =====================================================
-    // INICIAR
+    // INICIAR SECUENCIA
     // =====================================================
 
     public void IniciarSecuencia()
@@ -189,19 +219,15 @@ public class ManoHorror : MonoBehaviour
 
     IEnumerator SecuenciaHorror()
     {
-        // -------------------------------------------------
-        // ESPERA
-        // -------------------------------------------------
-
         yield return
             new WaitForSeconds(
                 esperaAntesDeSalir
             );
 
 
-        // -------------------------------------------------
+        // =================================================
         // VALIDAR
-        // -------------------------------------------------
+        // =================================================
 
         if (mano == null ||
             puntoSalida == null ||
@@ -258,7 +284,7 @@ public class ManoHorror : MonoBehaviour
 
 
         // =================================================
-        // 2. IR HACIA EL VISOR
+        // 2. IR AL VISOR
         // =================================================
 
         while (true)
@@ -290,10 +316,6 @@ public class ManoHorror : MonoBehaviour
                 desplazamiento;
 
 
-            // ---------------------------------------------
-            // BRAZO
-            // ---------------------------------------------
-
             float distanciaRecorrida =
                 Vector3.Distance(
                     puntoSalida.position,
@@ -315,10 +337,6 @@ public class ManoHorror : MonoBehaviour
                 progreso
             );
 
-
-            // ---------------------------------------------
-            // ¿LLEGO?
-            // ---------------------------------------------
 
             float distanciaPalma =
                 Vector3.Distance(
@@ -344,7 +362,7 @@ public class ManoHorror : MonoBehaviour
 
 
         // =================================================
-        // 3. CLAVAR PALMA AL VISOR
+        // 3. PEGAR PALMA
         // =================================================
 
         mano.transform.position +=
@@ -366,7 +384,7 @@ public class ManoHorror : MonoBehaviour
 
 
         // =================================================
-        // 4. JALAR JUGADOR
+        // 4. ARRASTRAR
         // =================================================
 
         Debug.Log(
@@ -402,10 +420,6 @@ public class ManoHorror : MonoBehaviour
             }
 
 
-            // ---------------------------------------------
-            // MOVER XR ORIGIN
-            // ---------------------------------------------
-
             Vector3 nuevaCabeza =
                 Vector3.MoveTowards(
                     cabeza,
@@ -421,7 +435,7 @@ public class ManoHorror : MonoBehaviour
 
 
             // ---------------------------------------------
-            // MANTENER PALMA EN EL VISOR
+            // PALMA PEGADA AL VISOR
             // ---------------------------------------------
 
             Vector3 objetivoVisor =
@@ -441,10 +455,6 @@ public class ManoHorror : MonoBehaviour
                 objetivoVisor
             );
 
-
-            // ---------------------------------------------
-            // AJUSTAR BRAZO
-            // ---------------------------------------------
 
             float distanciaBrazoActual =
                 Vector3.Distance(
@@ -473,17 +483,11 @@ public class ManoHorror : MonoBehaviour
 
 
         // =================================================
-        // 5. TERMINO EL JALON
+        // 5. TERMINÓ
         // =================================================
 
         Debug.Log(
             "JUGADOR LLEGO A LA PUERTA"
-        );
-
-
-        Debug.Log(
-            "MANOHORROR DE ESTA PUERTA PIDE: " +
-            destinoJuego
         );
 
 
@@ -494,30 +498,25 @@ public class ManoHorror : MonoBehaviour
 
 
         // =================================================
-        // 6. LANZAR DESTINO DE ESTA PUERTA
+        // 6. EJECUTAR EL DESTINO HIJO DE ESTA PUERTA
         // =================================================
 
-        if (lanzadorJuego != null)
+        if (destinoPuerta != null)
         {
             Debug.Log(
-                "ENVIANDO AL LANZADOR: " +
-                destinoJuego
+                "EJECUTANDO DESTINO DE " +
+                gameObject.name
             );
 
 
-            // *********************************************
-            // ESTA ES LA LINEA IMPORTANTE
-            // *********************************************
-
-            lanzadorJuego.LanzarJuego(
-                destinoJuego
-            );
+            destinoPuerta
+                .EjecutarDestino();
         }
         else
         {
             Debug.LogError(
-                "NO HAY LanzadorJuegoPCVR " +
-                "ASIGNADO EN ESTA PUERTA"
+                gameObject.name +
+                " NO TIENE DESTINO JUEGO"
             );
         }
     }

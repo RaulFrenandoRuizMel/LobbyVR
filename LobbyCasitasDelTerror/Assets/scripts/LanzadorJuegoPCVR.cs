@@ -11,51 +11,23 @@ using UnityEngine.XR.Management;
 public class LanzadorJuegoPCVR : MonoBehaviour
 {
     // =====================================================
-    // DESTINOS DISPONIBLES
-    // =====================================================
-
-    public enum DestinoPCVR
-    {
-        Equipo1,
-        Equipo2,
-        Lobby
-    }
-
-
-    // Este destino se usa SOLO cuando llamamos LanzarJuego()
-    // sin parámetro.
-    // Principalmente para regresar con Y desde los juegos.
-    [Header("Destino por defecto")]
-    public DestinoPCVR destino = DestinoPCVR.Lobby;
-
-
-    // =====================================================
-    // RUTAS
-    // =====================================================
-
-    private const string RUTA_EQUIPO1 =
-        @"E:\Casitaselterrorportable\Equipos\EXEEQUIPO2\Equipo2.exe";
-
-
-    private const string RUTA_EQUIPO2 =
-        @"E:\Casitaselterrorportable\Equipos\EXEEQUIPO2\Equipo2.exe";
-
-
-    private const string RUTA_LOBBY =
-        @"E:\Casitaselterrorportable\LOBBYEXES\LobbyCasitasDelTerror.exe";
-
-
-    // =====================================================
-    // REGRESO CON CONTROL META QUEST
+    // META QUEST - BOTON Y
     // =====================================================
 
     [Header("Regreso con control Meta Quest")]
 
     [Tooltip(
-        "Activalo dentro de los juegos. " +
-        "Y del control izquierdo ejecutara el destino por defecto."
+        "OFF en el Lobby. " +
+        "ON dentro de los juegos si quieres regresar con Y."
     )]
     public bool usarYControlIzquierdo = false;
+
+
+    [Tooltip(
+        "Destino externo que se ejecutará al presionar Y. " +
+        "Por ejemplo un DestinoJuegoPuerta cuya ruta sea el Lobby."
+    )]
+    public DestinoJuegoPuerta destinoBotonY;
 
 
     // =====================================================
@@ -70,7 +42,7 @@ public class LanzadorJuegoPCVR : MonoBehaviour
 
 
     // =====================================================
-    // VARIABLES PRIVADAS
+    // PRIVADAS
     // =====================================================
 
     private bool cambiandoAplicacion = false;
@@ -88,6 +60,7 @@ public class LanzadorJuegoPCVR : MonoBehaviour
     private struct STARTUPINFO
     {
         public int cb;
+
         public System.IntPtr lpReserved;
         public System.IntPtr lpDesktop;
         public System.IntPtr lpTitle;
@@ -230,7 +203,7 @@ public class LanzadorJuegoPCVR : MonoBehaviour
 
 
     // =====================================================
-    // BUSCAR CONTROL IZQUIERDO
+    // CONTROL IZQUIERDO
     // =====================================================
 
     void BuscarControlIzquierdo()
@@ -248,17 +221,11 @@ public class LanzadorJuegoPCVR : MonoBehaviour
                 controlIzquierdo.name
             );
         }
-        else
-        {
-            Debug.LogWarning(
-                "NO SE DETECTO CONTROL IZQUIERDO"
-            );
-        }
     }
 
 
     // =====================================================
-    // BOTON Y DEL CONTROL IZQUIERDO
+    // BOTON Y
     // =====================================================
 
     void LeerBotonY()
@@ -280,14 +247,20 @@ public class LanzadorJuegoPCVR : MonoBehaviour
         if (yPresionado && !yAnterior)
         {
             Debug.Log(
-                "Y IZQUIERDA PRESIONADA"
+                "BOTON Y IZQUIERDO PRESIONADO"
             );
 
 
-            // IMPORTANTE:
-            // aquí usamos el destino por defecto.
-            // En Equipo1/Equipo2 debe ser Lobby.
-            LanzarJuego();
+            if (destinoBotonY != null)
+            {
+                destinoBotonY.EjecutarDestino();
+            }
+            else
+            {
+                Debug.LogError(
+                    "NO HAY DESTINO ASIGNADO AL BOTON Y"
+                );
+            }
         }
 
 
@@ -297,32 +270,19 @@ public class LanzadorJuegoPCVR : MonoBehaviour
 
 
     // =====================================================
-    // LANZAMIENTO POR DEFECTO
+    // ÚNICA ENTRADA DE RUTA
     // =====================================================
     //
-    // Se usa principalmente desde los juegos con Y.
-    // Usa el valor "destino" del Inspector.
-    // =====================================================
-
-    public void LanzarJuego()
-    {
-        LanzarJuego(
-            destino
-        );
-    }
-
-
-    // =====================================================
-    // LANZAMIENTO SOLICITADO POR UNA PUERTA
-    // =====================================================
+    // Este Lanzador NO conoce Equipo1, Equipo2, etc.
     //
-    // ManoHorror usa ESTE método.
-    // Recibe explícitamente Equipo1, Equipo2, etc.
+    // Solo recibe:
+    //
+    // E:\Carpeta\Juego.exe
+    //
+    // desde DestinoJuegoPuerta.
     // =====================================================
 
-    public void LanzarJuego(
-        DestinoPCVR destinoSolicitado
-    )
+    public void LanzarRuta(string rutaRelativa)
     {
         if (cambiandoAplicacion)
         {
@@ -334,15 +294,60 @@ public class LanzadorJuegoPCVR : MonoBehaviour
         }
 
 
+        if (string.IsNullOrWhiteSpace(rutaRelativa))
+        {
+            Debug.LogError(
+                "LA RUTA RELATIVA ESTA VACIA"
+            );
+
+            return;
+        }
+
+
+        // =====================================================
+        // OBTENER CARPETA DEL EXE QUE ESTA CORRIENDO
+        // =====================================================
+
+        string carpetaExeActual =
+            Directory.GetParent(
+                Application.dataPath
+            ).FullName;
+
+
+        // =====================================================
+        // CONVERTIR RUTA RELATIVA EN RUTA REAL
+        // =====================================================
+
+        string rutaCompleta =
+            Path.GetFullPath(
+                Path.Combine(
+                    carpetaExeActual,
+                    rutaRelativa
+                )
+            );
+
+
         Debug.Log(
-            "LANZADOR RECIBIO DESDE LA PUERTA: " +
-            destinoSolicitado
+            "CARPETA DEL EXE ACTUAL:\n" +
+            carpetaExeActual
+        );
+
+
+        Debug.Log(
+            "RUTA RELATIVA:\n" +
+            rutaRelativa
+        );
+
+
+        Debug.Log(
+            "RUTA FINAL RESUELTA:\n" +
+            rutaCompleta
         );
 
 
         StartCoroutine(
             CambiarAplicacion(
-                destinoSolicitado
+                rutaCompleta
             )
         );
     }
@@ -353,40 +358,19 @@ public class LanzadorJuegoPCVR : MonoBehaviour
     // =====================================================
 
     IEnumerator CambiarAplicacion(
-        DestinoPCVR destinoSolicitado
+        string rutaDestino
     )
     {
         cambiandoAplicacion = true;
 
 
         // =================================================
-        // OBTENER LA RUTA DEL DESTINO RECIBIDO
+        // 1. VALIDAR RUTA
         // =================================================
 
-        string rutaDestino =
-            ObtenerRutaDestino(
-                destinoSolicitado
-            );
-
-
-        Debug.Log(
-            "DESTINO SOLICITADO: " +
-            destinoSolicitado +
-            "\nRUTA:\n" +
+        if (!File.Exists(
             rutaDestino
-        );
-
-
-        // =================================================
-        // 1. COMPROBAR QUE EXISTE EL EXE
-        // =================================================
-
-        if (string.IsNullOrEmpty(
-                rutaDestino
-            ) ||
-            !File.Exists(
-                rutaDestino
-            ))
+        ))
         {
             Debug.LogError(
                 "NO EXISTE EL EXE:\n" +
@@ -394,20 +378,23 @@ public class LanzadorJuegoPCVR : MonoBehaviour
             );
 
 
-            cambiandoAplicacion =
-                false;
-
+            cambiandoAplicacion = false;
 
             yield break;
         }
+
+
+        Debug.Log(
+            "EXE ENCONTRADO:\n" +
+            rutaDestino
+        );
 
 
         // =================================================
         // 2. LIBERAR OPENXR
         // =================================================
 
-        XRManagerSettings manager =
-            null;
+        XRManagerSettings manager = null;
 
 
         if (XRGeneralSettings.Instance != null)
@@ -440,7 +427,7 @@ public class LanzadorJuegoPCVR : MonoBehaviour
 
 
         // =================================================
-        // 3. CREAR EL NUEVO PROCESO
+        // 3. PREPARAR PROCESO
         // =================================================
 
         STARTUPINFO si =
@@ -464,6 +451,16 @@ public class LanzadorJuegoPCVR : MonoBehaviour
         PROCESS_INFORMATION pi;
 
 
+        string carpetaTrabajo =
+            Path.GetDirectoryName(
+                rutaDestino
+            );
+
+
+        // =================================================
+        // 4. LANZAR EXE
+        // =================================================
+
         bool abierto =
             CreateProcessW(
                 rutaDestino,
@@ -473,16 +470,14 @@ public class LanzadorJuegoPCVR : MonoBehaviour
                 false,
                 0,
                 System.IntPtr.Zero,
-                Path.GetDirectoryName(
-                    rutaDestino
-                ),
+                carpetaTrabajo,
                 ref si,
                 out pi
             );
 
 
         // =================================================
-        // 4. ERROR AL ABRIR
+        // 5. ERROR
         // =================================================
 
         if (!abierto)
@@ -492,17 +487,23 @@ public class LanzadorJuegoPCVR : MonoBehaviour
 
 
             Debug.LogError(
-                "CreateProcessW FALLO. ERROR: " +
-                error +
-                "\nDESTINO: " +
-                destinoSolicitado +
-                "\nRUTA:\n" +
+                "CreateProcessW FALLO"
+            );
+
+
+            Debug.LogError(
+                "ERROR WINDOWS: " +
+                error
+            );
+
+
+            Debug.LogError(
+                "RUTA:\n" +
                 rutaDestino
             );
 
 
-            cambiandoAplicacion =
-                false;
+            cambiandoAplicacion = false;
 
 
             yield return
@@ -515,21 +516,30 @@ public class LanzadorJuegoPCVR : MonoBehaviour
         }
 
 
-        // El thread handle ya no lo ocupamos.
         CloseHandle(
             pi.hThread
         );
 
 
         Debug.Log(
-            destinoSolicitado +
-            " LANZADO. PID: " +
+            "EXE LANZADO"
+        );
+
+
+        Debug.Log(
+            "PID: " +
             pi.dwProcessId
         );
 
 
+        Debug.Log(
+            "RUTA REAL EJECUTADA:\n" +
+            rutaDestino
+        );
+
+
         // =================================================
-        // 5. ESPERAR QUE ARRANQUE
+        // 6. ESPERAR
         // =================================================
 
         yield return
@@ -539,7 +549,7 @@ public class LanzadorJuegoPCVR : MonoBehaviour
 
 
         // =================================================
-        // 6. CONFIRMAR QUE SIGUE VIVO
+        // 7. CONFIRMAR NUEVO PROCESO
         // =================================================
 
         bool sigueVivo =
@@ -552,9 +562,7 @@ public class LanzadorJuegoPCVR : MonoBehaviour
         if (!sigueVivo)
         {
             Debug.LogError(
-                destinoSolicitado +
-                " SE CERRO AL ARRANCAR. " +
-                "NO CERRARE LA APP ACTUAL."
+                "EL JUEGO NUEVO SE CERRO AL ARRANCAR"
             );
 
 
@@ -563,8 +571,7 @@ public class LanzadorJuegoPCVR : MonoBehaviour
             );
 
 
-            cambiandoAplicacion =
-                false;
+            cambiandoAplicacion = false;
 
 
             yield return
@@ -578,8 +585,7 @@ public class LanzadorJuegoPCVR : MonoBehaviour
 
 
         Debug.Log(
-            destinoSolicitado +
-            " CONFIRMADO."
+            "NUEVO JUEGO CONFIRMADO"
         );
 
 
@@ -589,52 +595,10 @@ public class LanzadorJuegoPCVR : MonoBehaviour
 
 
         // =================================================
-        // 7. CERRAR LA APLICACION ACTUAL
+        // 8. CERRAR APP ACTUAL
         // =================================================
 
-        Debug.Log(
-            "CAMBIO CORRECTO. CERRANDO APP ACTUAL."
-        );
-
-
         MatarProcesoActual();
-    }
-
-
-    // =====================================================
-    // ELEGIR RUTA
-    // =====================================================
-    //
-    // IMPORTANTE:
-    // usa destinoSolicitado.
-    // NO usa la variable global "destino".
-    // =====================================================
-
-    string ObtenerRutaDestino(
-        DestinoPCVR destinoSolicitado
-    )
-    {
-        switch (destinoSolicitado)
-        {
-            case DestinoPCVR.Equipo1:
-
-                return RUTA_EQUIPO1;
-
-
-            case DestinoPCVR.Equipo2:
-
-                return RUTA_EQUIPO2;
-
-
-            case DestinoPCVR.Lobby:
-
-                return RUTA_LOBBY;
-
-
-            default:
-
-                return "";
-        }
     }
 
 
@@ -671,7 +635,7 @@ public class LanzadorJuegoPCVR : MonoBehaviour
         if (handle != System.IntPtr.Zero)
         {
             Debug.Log(
-                "MATANDO PROCESO ACTUAL PID: " +
+                "CERRANDO PROCESO ACTUAL PID: " +
                 pid
             );
 
@@ -685,11 +649,6 @@ public class LanzadorJuegoPCVR : MonoBehaviour
 
             if (!terminado)
             {
-                Debug.LogError(
-                    "TerminateProcess FALLO"
-                );
-
-
                 Application.Quit();
             }
 
@@ -708,7 +667,7 @@ public class LanzadorJuegoPCVR : MonoBehaviour
 
 
     // =====================================================
-    // RECUPERAR XR SI EL DESTINO FALLA
+    // RECUPERAR XR
     // =====================================================
 
     IEnumerator RecuperarXR()
@@ -718,8 +677,7 @@ public class LanzadorJuegoPCVR : MonoBehaviour
         );
 
 
-        if (XRGeneralSettings.Instance ==
-            null)
+        if (XRGeneralSettings.Instance == null)
         {
             yield break;
         }
@@ -732,15 +690,16 @@ public class LanzadorJuegoPCVR : MonoBehaviour
 
 
         if (manager == null)
+        {
             yield break;
+        }
 
 
         yield return
             manager.InitializeLoader();
 
 
-        if (manager.activeLoader ==
-            null)
+        if (manager.activeLoader == null)
         {
             Debug.LogError(
                 "NO SE PUDO RECUPERAR XR"
