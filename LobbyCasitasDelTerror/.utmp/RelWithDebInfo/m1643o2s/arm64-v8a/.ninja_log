@@ -1,0 +1,10 @@
+# ninja log v5
+137	3698	8144317259088435	GameActivity/CMakeFiles/game.dir/UGAInputMotionEvent.cpp.o	7d78ee478d010bf5
+15	3846	8144317259128442	GameActivity/CMakeFiles/game.dir/UGAConfiguration.cpp.o	d56a4eab696afeb9
+60	3862	8144317259458456	GameActivity/CMakeFiles/game.dir/UGAInputKeyEvent.cpp.o	1f9d4c32631caaf1
+39	3890	8144317260638457	GameActivity/CMakeFiles/game.dir/UGAEntry.cpp.o	c2502067fc5e49e5
+1	4118	8144317263529773	GameActivity/CMakeFiles/game.dir/UGADebug.cpp.o	2d7e3e2e65d60192
+81	4451	8144317267035601	GameActivity/CMakeFiles/game.dir/UGASoftKeyboard.cpp.o	8f7da791aabb71a3
+48	4494	8144317267512503	GameActivity/CMakeFiles/game.dir/UGAInput.cpp.o	f3b1d262fc25425
+27	4722	8144317269862999	GameActivity/CMakeFiles/game.dir/UGAApplication.cpp.o	f31e99a9ec9274c6
+4723	4886	8144317271547245	C:/xampp/htdocs/LobbyVR/LobbyCasitasDelTerror/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/RelWithDebInfo/m1643o2s/obj/arm64-v8a/libgame.so	bcb95688236f29ec

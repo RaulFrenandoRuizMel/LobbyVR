@@ -1,31 +1,48 @@
 using System.Collections;
 using System.IO;
-using System.Runtime.InteropServices;
-using System.Text;
-
 using UnityEngine;
 using UnityEngine.XR;
 using UnityEngine.XR.Management;
 
 
+// WINDOWS SOLAMENTE
+#if UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN
+
+using System.Runtime.InteropServices;
+using System.Text;
+
+#endif
+
+
 public class LanzadorJuegoPCVR : MonoBehaviour
 {
     // =====================================================
-    // META QUEST - BOTON Y
+    // DESTINO DEL BOTON Y
+    // =====================================================
+    //
+    // NO HAY CHECKBOX.
+    //
+    // Si asignas Destino Boton Y:
+    //      Y ejecuta ese destino.
+    //
+    // Si queda en None:
+    //      Y no hace nada.
+    //
+    // El mismo DestinoJuegoPuerta puede contener:
+    //
+    // PC:
+    // ..\..\LOBBYEXES\LobbyCasitasDelTerror.exe
+    //
+    // QUEST:
+    // com.tuproyecto.lobby
+    //
     // =====================================================
 
-    [Header("Regreso con control Meta Quest")]
+    [Header("Regreso con boton Y")]
 
     [Tooltip(
-        "OFF en el Lobby. " +
-        "ON dentro de los juegos si quieres regresar con Y."
-    )]
-    public bool usarYControlIzquierdo = false;
-
-
-    [Tooltip(
-        "Destino externo que se ejecutará al presionar Y. " +
-        "Por ejemplo un DestinoJuegoPuerta cuya ruta sea el Lobby."
+        "Arrastra aqui el DestinoJuegoPuerta para regresar. " +
+        "Si queda vacio, Y no hace nada."
     )]
     public DestinoJuegoPuerta destinoBotonY;
 
@@ -42,7 +59,7 @@ public class LanzadorJuegoPCVR : MonoBehaviour
 
 
     // =====================================================
-    // PRIVADAS
+    // ESTADO
     // =====================================================
 
     private bool cambiandoAplicacion = false;
@@ -55,6 +72,8 @@ public class LanzadorJuegoPCVR : MonoBehaviour
     // =====================================================
     // WINDOWS API
     // =====================================================
+
+#if UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN
 
     [StructLayout(LayoutKind.Sequential)]
     private struct STARTUPINFO
@@ -88,9 +107,11 @@ public class LanzadorJuegoPCVR : MonoBehaviour
     private struct PROCESS_INFORMATION
     {
         public System.IntPtr hProcess;
+
         public System.IntPtr hThread;
 
         public int dwProcessId;
+
         public int dwThreadId;
     }
 
@@ -165,6 +186,8 @@ public class LanzadorJuegoPCVR : MonoBehaviour
     private const uint PROCESS_TERMINATE =
         0x0001;
 
+#endif
+
 
     // =====================================================
     // START
@@ -175,10 +198,50 @@ public class LanzadorJuegoPCVR : MonoBehaviour
         Application.runInBackground = true;
 
 
-        if (usarYControlIzquierdo)
-        {
-            BuscarControlIzquierdo();
-        }
+        Debug.Log(
+            "===================================="
+        );
+
+
+        Debug.Log(
+            "PLATAFORMA DETECTADA: " +
+            Application.platform
+        );
+
+
+#if UNITY_ANDROID && !UNITY_EDITOR
+
+        Debug.Log(
+            "MODO: META QUEST STANDALONE / APK"
+        );
+
+#elif UNITY_STANDALONE_WIN
+
+        Debug.Log(
+            "MODO: WINDOWS PCVR / QUEST LINK"
+        );
+
+#elif UNITY_EDITOR_WIN
+
+        Debug.Log(
+            "MODO: UNITY EDITOR WINDOWS"
+        );
+
+#else
+
+        Debug.Log(
+            "MODO: PLATAFORMA NO SOPORTADA"
+        );
+
+#endif
+
+
+        Debug.Log(
+            "===================================="
+        );
+
+
+        BuscarControlIzquierdo();
     }
 
 
@@ -188,7 +251,12 @@ public class LanzadorJuegoPCVR : MonoBehaviour
 
     void Update()
     {
-        if (!usarYControlIzquierdo)
+        // ---------------------------------------------
+        // Si no existe destino para Y,
+        // no necesitamos leer el boton.
+        // ---------------------------------------------
+
+        if (destinoBotonY == null)
             return;
 
 
@@ -203,7 +271,7 @@ public class LanzadorJuegoPCVR : MonoBehaviour
 
 
     // =====================================================
-    // CONTROL IZQUIERDO
+    // BUSCAR CONTROL IZQUIERDO
     // =====================================================
 
     void BuscarControlIzquierdo()
@@ -230,6 +298,10 @@ public class LanzadorJuegoPCVR : MonoBehaviour
 
     void LeerBotonY()
     {
+        if (!controlIzquierdo.isValid)
+            return;
+
+
         bool yPresionado = false;
 
 
@@ -244,6 +316,11 @@ public class LanzadorJuegoPCVR : MonoBehaviour
             return;
 
 
+        // ---------------------------------------------
+        // Solo cuando cambia de NO presionado
+        // a presionado.
+        // ---------------------------------------------
+
         if (yPresionado && !yAnterior)
         {
             Debug.Log(
@@ -253,13 +330,8 @@ public class LanzadorJuegoPCVR : MonoBehaviour
 
             if (destinoBotonY != null)
             {
-                destinoBotonY.EjecutarDestino();
-            }
-            else
-            {
-                Debug.LogError(
-                    "NO HAY DESTINO ASIGNADO AL BOTON Y"
-                );
+                destinoBotonY
+                    .EjecutarDestino();
             }
         }
 
@@ -270,19 +342,32 @@ public class LanzadorJuegoPCVR : MonoBehaviour
 
 
     // =====================================================
-    // ÚNICA ENTRADA DE RUTA
+    // LANZADOR UNIVERSAL
     // =====================================================
     //
-    // Este Lanzador NO conoce Equipo1, Equipo2, etc.
+    // ESTA ES LA FUNCION QUE DEBE USAR
+    // DestinoJuegoPuerta.
     //
-    // Solo recibe:
+    // Recibe DOS posibles destinos:
     //
-    // E:\Carpeta\Juego.exe
+    // PCVR:
     //
-    // desde DestinoJuegoPuerta.
+    // ..\Equipos\EXEEQUIPO4\Equipo4.exe
+    //
+    //
+    // META QUEST:
+    //
+    // com.equipo4.juego
+    //
+    //
+    // El lanzador decide automaticamente
+    // cual debe utilizar.
     // =====================================================
 
-    public void LanzarRuta(string rutaRelativa)
+    public void LanzarDestino(
+        string rutaRelativaPC,
+        string paqueteQuest
+    )
     {
         if (cambiandoAplicacion)
         {
@@ -294,19 +379,111 @@ public class LanzadorJuegoPCVR : MonoBehaviour
         }
 
 
-        if (string.IsNullOrWhiteSpace(rutaRelativa))
+        // =================================================
+        // META QUEST STANDALONE
+        // =================================================
+
+#if UNITY_ANDROID && !UNITY_EDITOR
+
+        Debug.Log(
+            "DESTINO DETECTADO COMO QUEST APK"
+        );
+
+
+        if (string.IsNullOrWhiteSpace(
+            paqueteQuest
+        ))
         {
             Debug.LogError(
-                "LA RUTA RELATIVA ESTA VACIA"
+                "EL PACKAGE NAME DE QUEST ESTA VACIO"
             );
 
             return;
         }
 
 
-        // =====================================================
-        // OBTENER CARPETA DEL EXE QUE ESTA CORRIENDO
-        // =====================================================
+        StartCoroutine(
+            CambiarAplicacionQuest(
+                paqueteQuest.Trim()
+            )
+        );
+
+
+        // =================================================
+        // WINDOWS / QUEST LINK
+        // =================================================
+
+#elif UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN
+
+        Debug.Log(
+            "DESTINO DETECTADO COMO PCVR / QUEST LINK"
+        );
+
+
+        LanzarRuta(
+            rutaRelativaPC
+        );
+
+
+        // =================================================
+        // OTRA PLATAFORMA
+        // =================================================
+
+#else
+
+        Debug.LogError(
+            "PLATAFORMA NO SOPORTADA: " +
+            Application.platform
+        );
+
+#endif
+    }
+
+
+    // =====================================================
+    // PCVR
+    // =====================================================
+    //
+    // Conservamos LanzarRuta para que no rompamos
+    // el sistema que ya teniamos.
+    //
+    // =====================================================
+
+    public void LanzarRuta(
+        string rutaRelativa
+    )
+    {
+#if UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN
+
+        if (cambiandoAplicacion)
+        {
+            Debug.LogWarning(
+                "YA HAY UN CAMBIO DE APLICACION EN CURSO"
+            );
+
+            return;
+        }
+
+
+        if (string.IsNullOrWhiteSpace(
+            rutaRelativa
+        ))
+        {
+            Debug.LogError(
+                "LA RUTA RELATIVA DE PC ESTA VACIA"
+            );
+
+            return;
+        }
+
+
+        rutaRelativa =
+            rutaRelativa.Trim();
+
+
+        // =================================================
+        // CARPETA DEL EXE ACTUAL
+        // =================================================
 
         string carpetaExeActual =
             Directory.GetParent(
@@ -314,9 +491,9 @@ public class LanzadorJuegoPCVR : MonoBehaviour
             ).FullName;
 
 
-        // =====================================================
-        // CONVERTIR RUTA RELATIVA EN RUTA REAL
-        // =====================================================
+        // =================================================
+        // RUTA RELATIVA -> RUTA ABSOLUTA
+        // =================================================
 
         string rutaCompleta =
             Path.GetFullPath(
@@ -325,6 +502,16 @@ public class LanzadorJuegoPCVR : MonoBehaviour
                     rutaRelativa
                 )
             );
+
+
+        Debug.Log(
+            "===================================="
+        );
+
+
+        Debug.Log(
+            "MODO PCVR"
+        );
 
 
         Debug.Log(
@@ -345,19 +532,35 @@ public class LanzadorJuegoPCVR : MonoBehaviour
         );
 
 
+        Debug.Log(
+            "===================================="
+        );
+
+
         StartCoroutine(
-            CambiarAplicacion(
+            CambiarAplicacionWindows(
                 rutaCompleta
             )
         );
+
+#else
+
+        Debug.LogError(
+            "LanzarRuta solamente funciona " +
+            "en Windows PCVR."
+        );
+
+#endif
     }
 
 
     // =====================================================
-    // CAMBIAR APLICACION
+    // WINDOWS - CAMBIAR APLICACION
     // =====================================================
 
-    IEnumerator CambiarAplicacion(
+#if UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN
+
+    IEnumerator CambiarAplicacionWindows(
         string rutaDestino
     )
     {
@@ -365,7 +568,7 @@ public class LanzadorJuegoPCVR : MonoBehaviour
 
 
         // =================================================
-        // 1. VALIDAR RUTA
+        // 1. VALIDAR EXE
         // =================================================
 
         if (!File.Exists(
@@ -549,7 +752,7 @@ public class LanzadorJuegoPCVR : MonoBehaviour
 
 
         // =================================================
-        // 7. CONFIRMAR NUEVO PROCESO
+        // 7. COMPROBAR QUE SIGUE VIVO
         // =================================================
 
         bool sigueVivo =
@@ -598,15 +801,15 @@ public class LanzadorJuegoPCVR : MonoBehaviour
         // 8. CERRAR APP ACTUAL
         // =================================================
 
-        MatarProcesoActual();
+        MatarProcesoActualWindows();
     }
 
 
     // =====================================================
-    // MATAR PROCESO ACTUAL
+    // MATAR PROCESO WINDOWS
     // =====================================================
 
-    void MatarProcesoActual()
+    void MatarProcesoActualWindows()
     {
 #if UNITY_EDITOR
 
@@ -664,6 +867,290 @@ public class LanzadorJuegoPCVR : MonoBehaviour
 
 #endif
     }
+
+#endif
+
+
+    // =====================================================
+    // META QUEST STANDALONE
+    // =====================================================
+
+#if UNITY_ANDROID && !UNITY_EDITOR
+
+    IEnumerator CambiarAplicacionQuest(
+        string paqueteQuest
+    )
+    {
+        cambiandoAplicacion = true;
+
+
+        if (string.IsNullOrWhiteSpace(
+            paqueteQuest
+        ))
+        {
+            Debug.LogError(
+                "PACKAGE NAME VACIO"
+            );
+
+
+            cambiandoAplicacion = false;
+
+            yield break;
+        }
+
+
+        Debug.Log(
+            "===================================="
+        );
+
+
+        Debug.Log(
+            "MODO META QUEST STANDALONE"
+        );
+
+
+        Debug.Log(
+            "PACKAGE DESTINO:\n" +
+            paqueteQuest
+        );
+
+
+        Debug.Log(
+            "===================================="
+        );
+
+
+        // =================================================
+        // 1. LIBERAR OPENXR
+        // =================================================
+
+        XRManagerSettings manager = null;
+
+
+        if (XRGeneralSettings.Instance != null)
+        {
+            manager =
+                XRGeneralSettings
+                    .Instance
+                    .Manager;
+        }
+
+
+        if (manager != null &&
+            manager.isInitializationComplete)
+        {
+            Debug.Log(
+                "LIBERANDO OPENXR..."
+            );
+
+
+            manager.StopSubsystems();
+
+            manager.DeinitializeLoader();
+        }
+
+
+        yield return
+            new WaitForSecondsRealtime(
+                tiempoLiberarXR
+            );
+
+
+        // =================================================
+        // 2. INTENTAR ABRIR APK
+        // =================================================
+
+        bool abierto =
+            false;
+
+
+        try
+        {
+            using (
+                AndroidJavaClass unityPlayer =
+                    new AndroidJavaClass(
+                        "com.unity3d.player.UnityPlayer"
+                    )
+            )
+            {
+                AndroidJavaObject actividadActual =
+                    unityPlayer
+                        .GetStatic<AndroidJavaObject>(
+                            "currentActivity"
+                        );
+
+
+                if (actividadActual == null)
+                {
+                    Debug.LogError(
+                        "NO SE ENCONTRO currentActivity"
+                    );
+                }
+                else
+                {
+                    AndroidJavaObject packageManager =
+                        actividadActual
+                            .Call<AndroidJavaObject>(
+                                "getPackageManager"
+                            );
+
+
+                    AndroidJavaObject intent =
+                        null;
+
+
+                    // =====================================
+                    // PRIMER INTENTO:
+                    // Launch Intent oficial del paquete
+                    // =====================================
+
+                    if (packageManager != null)
+                    {
+                        intent =
+                            packageManager
+                                .Call<AndroidJavaObject>(
+                                    "getLaunchIntentForPackage",
+                                    paqueteQuest
+                                );
+                    }
+
+
+                    // =====================================
+                    // SEGUNDO INTENTO:
+                    // ACTION_MAIN + CATEGORY_LAUNCHER
+                    // limitado al package.
+                    // =====================================
+
+                    if (intent == null)
+                    {
+                        Debug.LogWarning(
+                            "getLaunchIntentForPackage " +
+                            "NO DEVOLVIO INTENT. " +
+                            "PROBANDO INTENT DIRECTO."
+                        );
+
+
+                        intent =
+                            new AndroidJavaObject(
+                                "android.content.Intent",
+                                "android.intent.action.MAIN"
+                            );
+
+
+                        intent.Call<AndroidJavaObject>(
+                            "addCategory",
+                            "android.intent.category.LAUNCHER"
+                        );
+
+
+                        intent.Call<AndroidJavaObject>(
+                            "setPackage",
+                            paqueteQuest
+                        );
+                    }
+
+
+                    if (intent != null)
+                    {
+                        // FLAG_ACTIVITY_NEW_TASK
+                        intent.Call<AndroidJavaObject>(
+                            "addFlags",
+                            0x10000000
+                        );
+
+
+                        Debug.Log(
+                            "ABRIENDO APK:\n" +
+                            paqueteQuest
+                        );
+
+
+                        actividadActual.Call(
+                            "startActivity",
+                            intent
+                        );
+
+
+                        abierto =
+                            true;
+
+
+                        Debug.Log(
+                            "APK SOLICITADA CORRECTAMENTE"
+                        );
+
+
+                        // ---------------------------------
+                        // Cerramos la actividad actual.
+                        // El nuevo juego queda al frente.
+                        // ---------------------------------
+
+                        actividadActual.Call(
+                            "finish"
+                        );
+
+
+                        intent.Dispose();
+                    }
+
+
+                    if (packageManager != null)
+                    {
+                        packageManager.Dispose();
+                    }
+
+
+                    actividadActual.Dispose();
+                }
+            }
+        }
+        catch (
+            System.Exception error
+        )
+        {
+            Debug.LogError(
+                "ERROR ABRIENDO APK:\n" +
+                paqueteQuest +
+                "\n\n" +
+                error
+            );
+
+
+            abierto =
+                false;
+        }
+
+
+        // =================================================
+        // 3. SI FALLO, RECUPERAR XR
+        // =================================================
+
+        if (!abierto)
+        {
+            Debug.LogError(
+                "NO SE PUDO ABRIR LA APK:\n" +
+                paqueteQuest
+            );
+
+
+            cambiandoAplicacion =
+                false;
+
+
+            yield return
+                StartCoroutine(
+                    RecuperarXR()
+                );
+
+
+            yield break;
+        }
+
+
+        // En Android ya se termino nuestra Activity.
+    }
+
+#endif
 
 
     // =====================================================

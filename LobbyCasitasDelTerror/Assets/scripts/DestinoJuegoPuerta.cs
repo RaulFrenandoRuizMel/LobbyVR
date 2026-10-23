@@ -2,13 +2,41 @@ using UnityEngine;
 
 public class DestinoJuegoPuerta : MonoBehaviour
 {
-    [Header("Destino de ESTA puerta")]
-    [Tooltip("Ruta relativa desde la carpeta del EXE actual.")]
-    public string rutaRelativaExe;
+    // =====================================================
+    // DESTINO PCVR
+    // =====================================================
+
+    [Header("Destino PCVR - Quest Link")]
+
+    [Tooltip("Ruta relativa al EXE del juego.")]
+    public string rutaRelativaPC;
+
+
+    // =====================================================
+    // DESTINO META QUEST STANDALONE
+    // =====================================================
+
+    [Header("Destino Meta Quest APK")]
+
+    [Tooltip(
+        "Package Name del juego instalado en Meta Quest. " +
+        "Ejemplo: com.equipo4.juego"
+    )]
+    public string paqueteQuest;
+
+
+    // =====================================================
+    // LANZADOR
+    // =====================================================
 
     [Header("Lanzador")]
+
     public LanzadorJuegoPCVR lanzador;
 
+
+    // =====================================================
+    // START
+    // =====================================================
 
     void Start()
     {
@@ -19,6 +47,10 @@ public class DestinoJuegoPuerta : MonoBehaviour
         }
     }
 
+
+    // =====================================================
+    // EJECUTAR DESTINO
+    // =====================================================
 
     public void EjecutarDestino()
     {
@@ -32,24 +64,15 @@ public class DestinoJuegoPuerta : MonoBehaviour
         }
 
 
-        if (string.IsNullOrWhiteSpace(rutaRelativaExe))
-        {
-            Debug.LogError(
-                "La ruta relativa está vacía."
-            );
-
-            return;
-        }
-
-
         Debug.Log(
-            "RUTA RELATIVA SOLICITADA:\n" +
-            rutaRelativaExe
+            "DESTINO SOLICITADO POR: " +
+            gameObject.name
         );
 
 
-        lanzador.LanzarRuta(
-            rutaRelativaExe
+        lanzador.LanzarDestino(
+            rutaRelativaPC,
+            paqueteQuest
         );
     }
 }

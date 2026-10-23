@@ -1,0 +1,17 @@
+C:\xampp\htdocs\LobbyVR\LobbyCasitasDelTerror\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\cpp\GameActivity\GAToUnityCallbacks.h
+C:\xampp\htdocs\LobbyVR\LobbyCasitasDelTerror\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\cpp\GameActivity\MacroEnd.h
+C:\xampp\htdocs\LobbyVR\LobbyCasitasDelTerror\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\cpp\GameActivity\MacroHeaderBegin.h
+C:\xampp\htdocs\LobbyVR\LobbyCasitasDelTerror\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\cpp\GameActivity\MacroSourceBegin.h
+C:\xampp\htdocs\LobbyVR\LobbyCasitasDelTerror\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\cpp\GameActivity\UGAApplication.h
+C:\xampp\htdocs\LobbyVR\LobbyCasitasDelTerror\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\cpp\GameActivity\UGAConfiguration.h
+C:\xampp\htdocs\LobbyVR\LobbyCasitasDelTerror\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\cpp\GameActivity\UGADebug.h
+C:\xampp\htdocs\LobbyVR\LobbyCasitasDelTerror\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\cpp\GameActivity\UGAEvents.h
+C:\xampp\htdocs\LobbyVR\LobbyCasitasDelTerror\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\cpp\GameActivity\UGAInput.h
+C:\xampp\htdocs\LobbyVR\LobbyCasitasDelTerror\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\cpp\GameActivity\UGASoftKeyboard.h
+C:\xampp\htdocs\LobbyVR\LobbyCasitasDelTerror\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\cpp\GameActivity\UGASoftKeyboardCallbacks.h
+C:\xampp\htdocs\LobbyVR\LobbyCasitasDelTerror\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\cpp\GameActivity\UGATypes.h
+C:\xampp\htdocs\LobbyVR\LobbyCasitasDelTerror\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\cpp\GameActivity\UGAVersion.h
+C:\xampp\htdocs\LobbyVR\LobbyCasitasDelTerror\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\cpp\GameActivity\UnityToGACallbacks.h
+C:\xampp\htdocs\LobbyVR\LobbyCasitasDelTerror\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\cpp\GameActivity\UnityToGAConfigurationCallbacks.h
+C:\xampp\htdocs\LobbyVR\LobbyCasitasDelTerror\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\cpp\GameActivity\UnityToGAKeyEventCallbacks.h
+C:\xampp\htdocs\LobbyVR\LobbyCasitasDelTerror\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\cpp\GameActivity\UnityToGAMotionEventCallbacks.h

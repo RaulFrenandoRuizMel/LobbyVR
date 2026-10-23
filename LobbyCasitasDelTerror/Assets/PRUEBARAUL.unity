@@ -421,7 +421,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ac32a371dc82224d8c27f32da747758, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestinoJuegoPuerta
-  rutaRelativaExe: ..\Equipos\EXEEQUIPO4\Terror Bajo Tierra.exe
+  rutaRelativaPC: ..\Equipos\EXEEQUIPO4\Terror Bajo Tierra.exe
+  paqueteQuest: com.casitasdelterror.equipo4
   lanzador: {fileID: 1339351478}
 --- !u!1 &45328896 stripped
 GameObject:
@@ -9393,7 +9394,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1717954561962503726, guid: f6336ac4ac8b4d34bc5072418cdc62a0, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.34
+      value: 0.556
       objectReference: {fileID: 0}
     - target: {fileID: 1717954561962503726, guid: f6336ac4ac8b4d34bc5072418cdc62a0, type: 3}
       propertyPath: m_LocalPosition.y
@@ -9401,7 +9402,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1717954561962503726, guid: f6336ac4ac8b4d34bc5072418cdc62a0, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -11.05
+      value: -11.283
       objectReference: {fileID: 0}
     - target: {fileID: 1717954561962503726, guid: f6336ac4ac8b4d34bc5072418cdc62a0, type: 3}
       propertyPath: m_LocalRotation.w
@@ -16554,7 +16555,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07ac27cb5dea6b3458e76a8c481ff292, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LanzadorJuegoPCVR
-  usarYControlIzquierdo: 0
   destinoBotonY: {fileID: 0}
   tiempoLiberarXR: 0.8
   tiempoComprobarDestino: 1.5
@@ -17600,7 +17600,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ac32a371dc82224d8c27f32da747758, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestinoJuegoPuerta
-  rutaRelativaExe: ..\Equipos\EXEEQUIPO1\Aliens en la Granja.exe
+  rutaRelativaPC: ..\Equipos\EXEEQUIPO1\Aliens en la Granja.exe
+  paqueteQuest: com.casitasdelterror.equipo1
   lanzador: {fileID: 1339351478}
 --- !u!1 &1423670884 stripped
 GameObject:
@@ -18677,7 +18678,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ac32a371dc82224d8c27f32da747758, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestinoJuegoPuerta
-  rutaRelativaExe: ..\Equipos\EXEEQUIPO5\Pedro.exe.exe
+  rutaRelativaPC: ..\Equipos\EXEEQUIPO5\Pedro.exe.exe
+  paqueteQuest: com.casitasdelterror.equipo5
   lanzador: {fileID: 1339351478}
 --- !u!1001 &1604354270
 PrefabInstance:
@@ -19939,7 +19941,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ac32a371dc82224d8c27f32da747758, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestinoJuegoPuerta
-  rutaRelativaExe: ..\Equipos\EXEEQUIPO6\EquipoFNAF.exe
+  rutaRelativaPC: ..\Equipos\EXEEQUIPO6\EquipoFNAF.exe
+  paqueteQuest: com.casitasdelterror.equipo6
   lanzador: {fileID: 1339351478}
 --- !u!1 &1801200961 stripped
 GameObject:
@@ -20011,7 +20014,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ac32a371dc82224d8c27f32da747758, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestinoJuegoPuerta
-  rutaRelativaExe: ..\Equipos\EXEEQUIPO3\Obsesion Casa Terror.exe
+  rutaRelativaPC: ..\Equipos\EXEEQUIPO3\Obsesion Casa Terror.exe
+  paqueteQuest: com.casitasdelterror.equipo3
   lanzador: {fileID: 1339351478}
 --- !u!1 &1817909390
 GameObject:
@@ -20057,7 +20061,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ac32a371dc82224d8c27f32da747758, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestinoJuegoPuerta
-  rutaRelativaExe: ..\Equipos\EXEEQUIPO2\Mendigo.exe
+  rutaRelativaPC: ..\Equipos\EXEEQUIPO2\Mendigo.exe
+  paqueteQuest: com.casitasdelterror.equipo2
   lanzador: {fileID: 1339351478}
 --- !u!1 &1842478658 stripped
 GameObject:
