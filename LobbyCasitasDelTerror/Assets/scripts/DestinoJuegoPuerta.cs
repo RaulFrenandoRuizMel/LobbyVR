@@ -1,78 +1,79 @@
+
+using System.Collections;
 using UnityEngine;
 
 public class DestinoJuegoPuerta : MonoBehaviour
 {
-    // =====================================================
-    // DESTINO PCVR
-    // =====================================================
-
-    [Header("Destino PCVR - Quest Link")]
-
-    [Tooltip("Ruta relativa al EXE del juego.")]
-    public string rutaRelativaPC;
-
-
-    // =====================================================
-    // DESTINO META QUEST STANDALONE
-    // =====================================================
-
-    [Header("Destino Meta Quest APK")]
-
-    [Tooltip(
-        "Package Name del juego instalado en Meta Quest. " +
-        "Ejemplo: com.equipo4.juego"
-    )]
-    public string paqueteQuest;
-
-
-    // =====================================================
-    // LANZADOR
-    // =====================================================
-
-    [Header("Lanzador")]
-
+    [Header("LANZADOR")]
     public LanzadorJuegoPCVR lanzador;
 
+    [Header("META QUEST APK")]
+    public string packageName = "";
+    public string activityName =
+        "com.unity3d.player.UnityPlayerGameActivity";
 
-    // =====================================================
-    // START
-    // =====================================================
+    [Header("WINDOWS PCVR")]
+    public string rutaPC = "";
 
-    void Start()
+    [Header("TIEMPO")]
+    public float segundos = 2f;
+
+    private bool iniciado = false;
+    private Coroutine cuenta;
+
+    // Llamar cuando la mano comienza a agarrar
+    public void IniciarAgarre()
     {
+        if (iniciado) return;
+
         if (lanzador == null)
         {
-            lanzador =
-                FindFirstObjectByType<LanzadorJuegoPCVR>();
-        }
-    }
-
-
-    // =====================================================
-    // EJECUTAR DESTINO
-    // =====================================================
-
-    public void EjecutarDestino()
-    {
-        if (lanzador == null)
-        {
-            Debug.LogError(
-                "No existe LanzadorJuegoPCVR."
-            );
-
+            Debug.LogError("Falta asignar Lanzador");
             return;
         }
 
+        iniciado = true;
 
-        Debug.Log(
-            "DESTINO SOLICITADO POR: " +
-            gameObject.name
-        );
+        Debug.Log("Agarre iniciado en: " + name);
 
+        cuenta = StartCoroutine(EsperarYAbrir());
+    }
+
+    private IEnumerator EsperarYAbrir()
+    {
+        yield return new WaitForSecondsRealtime(
+            Mathf.Max(0f, segundos));
+
+        cuenta = null;
+
+        Debug.Log("Abriendo juego de: " + name);
 
         lanzador.LanzarDestino(
-            rutaRelativaPC,
-            paqueteQuest
+            rutaPC,
+            packageName,
+            activityName
         );
+
+        iniciado = false;
+    }
+
+    // Compatible con llamadas existentes
+    public void EjecutarDestino()
+    {
+        IniciarAgarre();
+    }
+
+    public void CancelarAgarre()
+    {
+        if (cuenta != null)
+            StopCoroutine(cuenta);
+
+        cuenta = null;
+        iniciado = false;
+    }
+
+    private void OnDisable()
+    {
+        CancelarAgarre();
     }
 }

@@ -181,6 +181,37 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9ede58f3bdddaa1439b604f665898f2b, type: 3}
+--- !u!1 &23230704
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 23230705}
+  m_Layer: 0
+  m_Name: Rutasegura
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &23230705
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 23230704}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.08, y: 1.83, z: 2.45}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1863905797}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &23902290
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -421,9 +452,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ac32a371dc82224d8c27f32da747758, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestinoJuegoPuerta
-  rutaRelativaPC: ..\Equipos\EXEEQUIPO4\Terror Bajo Tierra.exe
-  paqueteQuest: com.casitasdelterror.equipo4
   lanzador: {fileID: 1339351478}
+  packageName: com.casitasdelterror.equipo3
+  activityName: com.unity3d.player.UnityPlayerGameActivity
+  rutaPC: ..\Equipos\EXEEQUIPO4\Terror Bajo Tierra.exe
+  segundos: 1
 --- !u!1 &45328896 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7043099856531512178, guid: f553079321abcc94daab9812eabd0dfc, type: 3}
@@ -1866,7 +1899,7 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Size: {x: 0.020000005, y: 0.020000005, z: 0.019999996}
   m_Center: {x: 0, y: 0.000000029802322, z: 0}
@@ -2006,7 +2039,7 @@ Transform:
   m_GameObject: {fileID: 175146592}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -14.949, y: 0, z: -11.724}
+  m_LocalPosition: {x: -14.949, y: 0, z: -11.82}
   m_LocalScale: {x: 1.3874106, y: 2.655611, z: 6.18452}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2069,7 +2102,7 @@ Transform:
   m_GameObject: {fileID: 206780011}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.382, z: -0.363}
+  m_LocalPosition: {x: -0.37, y: 0.37, z: -3.03}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2403,6 +2436,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Puerta_06
       objectReference: {fileID: 0}
+    - target: {fileID: 5808591874877893066, guid: ee7fc763f819dff44869ecb7fe21c99f, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7968254474865320496, guid: ee7fc763f819dff44869ecb7fe21c99f, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
@@ -2425,6 +2462,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2545382053540222413, guid: ee7fc763f819dff44869ecb7fe21c99f, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1797355968}
+    - targetCorrespondingSourceObject: {fileID: 2545382053540222413, guid: ee7fc763f819dff44869ecb7fe21c99f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2023996558}
     - targetCorrespondingSourceObject: {fileID: 2181763193838759812, guid: ee7fc763f819dff44869ecb7fe21c99f, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1474831950}
@@ -3252,7 +3292,7 @@ Transform:
   m_GameObject: {fileID: 335617566}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -21.118, y: 0, z: 0.0049505234}
+  m_LocalPosition: {x: -21.33, y: 0, z: 0.0049505234}
   m_LocalScale: {x: 1.3874105, y: 2.655611, z: 6.1845202}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5026,18 +5066,23 @@ MonoBehaviour:
   puntoArrastre: {fileID: 1235082447}
   mainCamera: {fileID: 666560885}
   xrOrigin: {fileID: 599477796}
+  puntoEntradaSegura: {fileID: 2023996558}
   puntoPalma: {fileID: 611439161}
   puntoAgarreVisor: {fileID: 1407143093}
+  rendererCubo: {fileID: 2135393726}
   huesoEstirar: {fileID: 1009763679}
   escalaMaximaBrazo: 2
   offsetRotacionMano: {x: 0, y: 0, z: 0}
+  orientarJugadorHaciaMano: 1
+  duracionGiro: 0.35
   esperaAntesDeSalir: 0.5
   velocidadEstiramiento: 8
   esperaAlAgarrar: 0.15
   velocidadArrastre: 3.5
   distanciaFinal: 0.18
-  destinoPuerta: {fileID: 0}
-  esperaAntesDeAbrirJuego: 0.3
+  tiempoMaximoArrastre: 15
+  controladorJugador: {fileID: 1612528249}
+  destinoPuerta: {fileID: 1797355969}
 --- !u!114 &580311659
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5057,6 +5102,7 @@ MonoBehaviour:
   - {fileID: 1191478450}
   - {fileID: 765423214}
   - {fileID: 1882516435}
+  manoHorror: {fileID: 580311658}
   anguloApertura: 180
   velocidad: 90
 --- !u!114 &580311660
@@ -5094,7 +5140,7 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Size: {x: 0.019999998, y: 0.019999998, z: 0.019999996}
   m_Center: {x: 0, y: 0, z: -9.313226e-10}
@@ -5383,7 +5429,7 @@ Transform:
   m_GameObject: {fileID: 637095685}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.382, z: -0.363}
+  m_LocalPosition: {x: -0.18, y: 0.23, z: -3.25}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6022,7 +6068,7 @@ Transform:
   m_GameObject: {fileID: 734475735}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -6.17, y: 0, z: -11.724}
+  m_LocalPosition: {x: -6.17, y: -0.09, z: -11.724}
   m_LocalScale: {x: 1.3874106, y: 2.655611, z: 6.18452}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6055,18 +6101,23 @@ MonoBehaviour:
   puntoArrastre: {fileID: 1446570388}
   mainCamera: {fileID: 666560885}
   xrOrigin: {fileID: 599477796}
+  puntoEntradaSegura: {fileID: 933664434}
   puntoPalma: {fileID: 1156979938}
   puntoAgarreVisor: {fileID: 1407143093}
+  rendererCubo: {fileID: 1034761078}
   huesoEstirar: {fileID: 1503648872}
   escalaMaximaBrazo: 2
   offsetRotacionMano: {x: 0, y: 0, z: 0}
+  orientarJugadorHaciaMano: 1
+  duracionGiro: 0.35
   esperaAntesDeSalir: 0.5
   velocidadEstiramiento: 8
   esperaAlAgarrar: 0.15
   velocidadArrastre: 3.5
   distanciaFinal: 0.18
-  destinoPuerta: {fileID: 0}
-  esperaAntesDeAbrirJuego: 0.3
+  tiempoMaximoArrastre: 15
+  controladorJugador: {fileID: 1612528249}
+  destinoPuerta: {fileID: 1817909392}
 --- !u!114 &760191523
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6086,6 +6137,7 @@ MonoBehaviour:
   - {fileID: 610182047}
   - {fileID: 448487364}
   - {fileID: 235070083}
+  manoHorror: {fileID: 760191522}
   anguloApertura: 180
   velocidad: 90
 --- !u!114 &760191524
@@ -6128,18 +6180,23 @@ MonoBehaviour:
   puntoArrastre: {fileID: 206780012}
   mainCamera: {fileID: 666560885}
   xrOrigin: {fileID: 599477796}
+  puntoEntradaSegura: {fileID: 1551222345}
   puntoPalma: {fileID: 1545706201}
   puntoAgarreVisor: {fileID: 1407143093}
+  rendererCubo: {fileID: 1006790050}
   huesoEstirar: {fileID: 115130963}
   escalaMaximaBrazo: 2
   offsetRotacionMano: {x: 0, y: 0, z: 0}
+  orientarJugadorHaciaMano: 1
+  duracionGiro: 0.35
   esperaAntesDeSalir: 0.5
   velocidadEstiramiento: 8
   esperaAlAgarrar: 0.15
   velocidadArrastre: 3.5
   distanciaFinal: 0.18
-  destinoPuerta: {fileID: 0}
-  esperaAntesDeAbrirJuego: 0.3
+  tiempoMaximoArrastre: 15
+  controladorJugador: {fileID: 1612528249}
+  destinoPuerta: {fileID: 1602096645}
 --- !u!114 &760246648
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6159,6 +6216,7 @@ MonoBehaviour:
   - {fileID: 326861011}
   - {fileID: 469022499}
   - {fileID: 2147125313}
+  manoHorror: {fileID: 760246647}
   anguloApertura: 180
   velocidad: 90
 --- !u!114 &760246649
@@ -6286,7 +6344,7 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Size: {x: 0.020000001, y: 0.020000005, z: 0.019999996}
   m_Center: {x: 0, y: 0.000000029802322, z: -9.313226e-10}
@@ -6342,6 +6400,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Puerta_05
       objectReference: {fileID: 0}
+    - target: {fileID: 5808591874877893066, guid: ee7fc763f819dff44869ecb7fe21c99f, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7968254474865320496, guid: ee7fc763f819dff44869ecb7fe21c99f, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
@@ -6364,6 +6426,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2545382053540222413, guid: ee7fc763f819dff44869ecb7fe21c99f, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1602096644}
+    - targetCorrespondingSourceObject: {fileID: 2545382053540222413, guid: ee7fc763f819dff44869ecb7fe21c99f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1551222345}
     - targetCorrespondingSourceObject: {fileID: 2181763193838759812, guid: ee7fc763f819dff44869ecb7fe21c99f, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1779370757}
@@ -6378,6 +6443,135 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 760246647}
   m_SourcePrefab: {fileID: 100100000, guid: ee7fc763f819dff44869ecb7fe21c99f, type: 3}
+--- !u!1 &810024473
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 810024475}
+  - component: {fileID: 810024474}
+  m_Layer: 0
+  m_Name: Musicalobby
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!82 &810024474
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 810024473}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 8300000, guid: 04ccaf6755ded4d449303bf25e0e7beb, type: 3}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 1
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 81
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!4 &810024475
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 810024473}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.47523, y: 3.5, z: -8.31202}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &827608687
 GameObject:
   m_ObjectHideFlags: 0
@@ -6808,7 +7002,7 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
@@ -6975,7 +7169,7 @@ Transform:
   m_GameObject: {fileID: 911180486}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -21.114, y: 0, z: -6.2}
+  m_LocalPosition: {x: -21.43, y: 0, z: -6.2}
   m_LocalScale: {x: 1.3874105, y: 2.655611, z: 6.1845202}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -7124,6 +7318,37 @@ Transform:
   m_Children:
   - {fileID: 460293204}
   m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &933664433
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 933664434}
+  m_Layer: 0
+  m_Name: Rutasegura
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &933664434
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 933664433}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.116, y: 1.716, z: 1.797}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 760191521}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &948619835
 GameObject:
@@ -7410,7 +7635,7 @@ Transform:
   m_GameObject: {fileID: 1006790047}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.02, y: 1.48, z: 0.24}
+  m_LocalPosition: {x: 0.02, y: 1.81, z: 0.24}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -9133,7 +9358,7 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
@@ -9220,6 +9445,37 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.019999998, y: 0.019999998, z: 0.019999996}
   m_Center: {x: -8.881784e-16, y: -0.000000059604645, z: -9.313226e-10}
+--- !u!1 &1053885537
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1053885538}
+  m_Layer: 0
+  m_Name: Rutasegura
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1053885538
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1053885537}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.033, y: 1.03, z: 1.783}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5270124412727427022}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1076032023
 GameObject:
   m_ObjectHideFlags: 0
@@ -14871,6 +15127,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Puerta_03
       objectReference: {fileID: 0}
+    - target: {fileID: 5808591874877893066, guid: ee7fc763f819dff44869ecb7fe21c99f, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7968254474865320496, guid: ee7fc763f819dff44869ecb7fe21c99f, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
@@ -14893,6 +15153,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2545382053540222413, guid: ee7fc763f819dff44869ecb7fe21c99f, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1817412853}
+    - targetCorrespondingSourceObject: {fileID: 2545382053540222413, guid: ee7fc763f819dff44869ecb7fe21c99f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 23230705}
     - targetCorrespondingSourceObject: {fileID: 2181763193838759812, guid: ee7fc763f819dff44869ecb7fe21c99f, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1084128254}
@@ -15017,7 +15280,7 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Size: {x: 0.019999998, y: 0.019999998, z: 0.019999998}
   m_Center: {x: 0, y: -0.00000011920929, z: 0}
@@ -15285,7 +15548,7 @@ Transform:
   m_GameObject: {fileID: 1235082446}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.382, z: -0.363}
+  m_LocalPosition: {x: 0.031, y: 1.43, z: -2.988}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -15531,7 +15794,7 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Size: {x: 0.020000001, y: 0.03397652, z: 0.019999998}
   m_Center: {x: -9.934786e-12, y: 0.006988182, z: -5.173905e-11}
@@ -15560,7 +15823,7 @@ Transform:
   m_GameObject: {fileID: 1282325862}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.382, z: -0.363}
+  m_LocalPosition: {x: 0.21, y: 0.68, z: -2.58}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -16255,8 +16518,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1, y: 0.43763307, z: 0.9999998}
+  m_Center: {x: 0, y: -0.28118342, z: 0}
 --- !u!23 &1317603078
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -16323,7 +16586,7 @@ Transform:
   m_GameObject: {fileID: 1317603076}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -14.949, y: -1.37, z: -11.724}
+  m_LocalPosition: {x: -14.949, y: -1.37, z: -11.556}
   m_LocalScale: {x: 1.3874106, y: 0.09234091, z: 6.18452}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -16555,9 +16818,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07ac27cb5dea6b3458e76a8c481ff292, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LanzadorJuegoPCVR
-  destinoBotonY: {fileID: 0}
-  tiempoLiberarXR: 0.8
-  tiempoComprobarDestino: 1.5
 --- !u!4 &1339351479
 Transform:
   m_ObjectHideFlags: 0
@@ -16876,7 +17136,7 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
@@ -17315,10 +17575,41 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Size: {x: 0.020000005, y: 0.020000005, z: 0.019999996}
   m_Center: {x: 0, y: -0.000000029802322, z: 0}
+--- !u!1 &1384387356
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1384387357}
+  m_Layer: 0
+  m_Name: Rutasegura
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1384387357
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1384387356}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.195, y: 1.777, z: 2.058}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1559340263}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1385515050 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2181763193838759812, guid: ee7fc763f819dff44869ecb7fe21c99f, type: 3}
@@ -17600,9 +17891,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ac32a371dc82224d8c27f32da747758, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestinoJuegoPuerta
-  rutaRelativaPC: ..\Equipos\EXEEQUIPO1\Aliens en la Granja.exe
-  paqueteQuest: com.casitasdelterror.equipo1
   lanzador: {fileID: 1339351478}
+  packageName: com.casitasdelterror.equipo1
+  activityName: com.unity3d.player.UnityPlayerGameActivity
+  rutaPC: ..\Equipos\EXEEQUIPO1\Aliens en la Granja.exe
+  segundos: 1
 --- !u!1 &1423670884 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7900711547149736583, guid: f553079321abcc94daab9812eabd0dfc, type: 3}
@@ -17677,7 +17970,7 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Size: {x: 0.019999998, y: 0.019999998, z: 0.019999996}
   m_Center: {x: 0, y: 0, z: 0}
@@ -17843,7 +18136,7 @@ Transform:
   m_GameObject: {fileID: 1446570387}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.382, z: -1.099}
+  m_LocalPosition: {x: -0.21, y: 0.58, z: -2.58}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -18365,6 +18658,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 115130962}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1551222344
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1551222345}
+  m_Layer: 0
+  m_Name: Rutasegura
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1551222345
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1551222344}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.24, y: 2.017, z: 2.75}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 760246646}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1551660859
 GameObject:
   m_ObjectHideFlags: 0
@@ -18425,18 +18749,23 @@ MonoBehaviour:
   puntoArrastre: {fileID: 637095686}
   mainCamera: {fileID: 666560885}
   xrOrigin: {fileID: 599477796}
+  puntoEntradaSegura: {fileID: 1384387357}
   puntoPalma: {fileID: 234216775}
   puntoAgarreVisor: {fileID: 1407143093}
+  rendererCubo: {fileID: 2112986155}
   huesoEstirar: {fileID: 1013613715}
   escalaMaximaBrazo: 2
   offsetRotacionMano: {x: 0, y: 0, z: 0}
+  orientarJugadorHaciaMano: 1
+  duracionGiro: 0.35
   esperaAntesDeSalir: 0.5
   velocidadEstiramiento: 8
   esperaAlAgarrar: 0.15
   velocidadArrastre: 3.5
   distanciaFinal: 0.18
-  destinoPuerta: {fileID: 0}
-  esperaAntesDeAbrirJuego: 0.3
+  tiempoMaximoArrastre: 15
+  controladorJugador: {fileID: 1612528249}
+  destinoPuerta: {fileID: 42155242}
 --- !u!114 &1559340265
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18456,6 +18785,7 @@ MonoBehaviour:
   - {fileID: 2017809841}
   - {fileID: 1660393232}
   - {fileID: 1763289528}
+  manoHorror: {fileID: 1559340264}
   anguloApertura: 180
   velocidad: 90
 --- !u!114 &1559340266
@@ -18678,9 +19008,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ac32a371dc82224d8c27f32da747758, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestinoJuegoPuerta
-  rutaRelativaPC: ..\Equipos\EXEEQUIPO5\Pedro.exe.exe
-  paqueteQuest: com.casitasdelterror.equipo5
   lanzador: {fileID: 1339351478}
+  packageName: com.casitasdelterror.equipo6
+  activityName: com.unity3d.player.UnityPlayerGameActivity
+  rutaPC: ..\Equipos\EXEEQUIPO5\Pedro.exe.exe
+  segundos: 1
 --- !u!1001 &1604354270
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -18754,6 +19086,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 82e81947a4bb5f845bc21f5a70eb54d8, type: 3}
+--- !u!143 &1612528249 stripped
+CharacterController:
+  m_CorrespondingSourceObject: {fileID: 6232745470614056090, guid: f6336ac4ac8b4d34bc5072418cdc62a0, type: 3}
+  m_PrefabInstance: {fileID: 1088317240}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1621289194 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1361228423891986694, guid: f553079321abcc94daab9812eabd0dfc, type: 3}
@@ -19273,7 +19610,7 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
@@ -19941,9 +20278,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ac32a371dc82224d8c27f32da747758, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestinoJuegoPuerta
-  rutaRelativaPC: ..\Equipos\EXEEQUIPO6\EquipoFNAF.exe
-  paqueteQuest: com.casitasdelterror.equipo6
   lanzador: {fileID: 1339351478}
+  packageName: com.casitasdelterror.equipo6
+  activityName: com.unity3d.player.UnityPlayerGameActivity
+  rutaPC: ..\Equipos\EXEEQUIPO6\EquipoFNAF.exe
+  segundos: 2
 --- !u!1 &1801200961 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1361228423891986694, guid: f553079321abcc94daab9812eabd0dfc, type: 3}
@@ -20014,9 +20353,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ac32a371dc82224d8c27f32da747758, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestinoJuegoPuerta
-  rutaRelativaPC: ..\Equipos\EXEEQUIPO3\Obsesion Casa Terror.exe
-  paqueteQuest: com.casitasdelterror.equipo3
   lanzador: {fileID: 1339351478}
+  packageName: com.casitasdelterror.equipo3
+  activityName: com.unity3d.player.UnityPlayerGameActivity
+  rutaPC: ..\Equipos\EXEEQUIPO2\Mendigo.exe
+  segundos: 1
 --- !u!1 &1817909390
 GameObject:
   m_ObjectHideFlags: 0
@@ -20061,9 +20402,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ac32a371dc82224d8c27f32da747758, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestinoJuegoPuerta
-  rutaRelativaPC: ..\Equipos\EXEEQUIPO2\Mendigo.exe
-  paqueteQuest: com.casitasdelterror.equipo2
   lanzador: {fileID: 1339351478}
+  packageName: com.casitasdelterror.equipo1
+  activityName: com.unity3d.player.UnityPlayerGameActivity
+  rutaPC: ..\Equipos\EXEEQUIPO2\Mendigo.exe
+  segundos: 1
 --- !u!1 &1842478658 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1670256624, guid: f6336ac4ac8b4d34bc5072418cdc62a0, type: 3}
@@ -20256,18 +20599,23 @@ MonoBehaviour:
   puntoArrastre: {fileID: 1282325863}
   mainCamera: {fileID: 666560885}
   xrOrigin: {fileID: 599477796}
+  puntoEntradaSegura: {fileID: 23230705}
   puntoPalma: {fileID: 1076032024}
   puntoAgarreVisor: {fileID: 1407143093}
+  rendererCubo: {fileID: 1708360548}
   huesoEstirar: {fileID: 1945814481}
   escalaMaximaBrazo: 2
   offsetRotacionMano: {x: 0, y: 0, z: 0}
+  orientarJugadorHaciaMano: 1
+  duracionGiro: 0.35
   esperaAntesDeSalir: 0.5
   velocidadEstiramiento: 8
   esperaAlAgarrar: 0.15
   velocidadArrastre: 3.5
   distanciaFinal: 0.18
-  destinoPuerta: {fileID: 0}
-  esperaAntesDeAbrirJuego: 0.2
+  tiempoMaximoArrastre: 15
+  controladorJugador: {fileID: 1612528249}
+  destinoPuerta: {fileID: 1817412854}
 --- !u!114 &1863905799
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20287,6 +20635,7 @@ MonoBehaviour:
   - {fileID: 424919474}
   - {fileID: 1945788417}
   - {fileID: 1132494800}
+  manoHorror: {fileID: 1863905798}
   anguloApertura: 180
   velocidad: 90
 --- !u!114 &1863905800
@@ -20563,7 +20912,7 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Size: {x: 0.020000001, y: 0.020000005, z: 0.019999996}
   m_Center: {x: 0, y: -0.000000029802322, z: -9.313226e-10}
@@ -21722,6 +22071,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2545382053540222413, guid: ee7fc763f819dff44869ecb7fe21c99f, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1817909391}
+    - targetCorrespondingSourceObject: {fileID: 2545382053540222413, guid: ee7fc763f819dff44869ecb7fe21c99f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 933664434}
     - targetCorrespondingSourceObject: {fileID: 2181763193838759812, guid: ee7fc763f819dff44869ecb7fe21c99f, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1570457812}
@@ -21761,7 +22113,7 @@ Transform:
   m_GameObject: {fileID: 1983706612}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.063, y: 1.382, z: -1.026}
+  m_LocalPosition: {x: 0.13, y: 1.133, z: -3.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -22692,6 +23044,37 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 236222072342129744, guid: 34274e225f5b6414c814dbb3ed1165da, type: 3}
   m_PrefabInstance: {fileID: 2072700490}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &2023996557
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2023996558}
+  m_Layer: 0
+  m_Name: Rutasegura
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2023996558
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2023996557}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.08, y: 1.56, z: 1.75}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 580311657}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2032299058
 GameObject:
   m_ObjectHideFlags: 0
@@ -23042,7 +23425,7 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Size: {x: 0.020000001, y: 0.020000001, z: 0.019999998}
   m_Center: {x: 0, y: 0, z: 0}
@@ -23141,7 +23524,7 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
@@ -23309,6 +23692,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Puerta_04
       objectReference: {fileID: 0}
+    - target: {fileID: 5808591874877893066, guid: ee7fc763f819dff44869ecb7fe21c99f, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7968254474865320496, guid: ee7fc763f819dff44869ecb7fe21c99f, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
@@ -23331,6 +23718,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2545382053540222413, guid: ee7fc763f819dff44869ecb7fe21c99f, type: 3}
       insertIndex: -1
       addedObject: {fileID: 42155241}
+    - targetCorrespondingSourceObject: {fileID: 2545382053540222413, guid: ee7fc763f819dff44869ecb7fe21c99f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1384387357}
     - targetCorrespondingSourceObject: {fileID: 2181763193838759812, guid: ee7fc763f819dff44869ecb7fe21c99f, type: 3}
       insertIndex: -1
       addedObject: {fileID: 322058095}
@@ -23495,7 +23885,7 @@ Transform:
   m_GameObject: {fileID: 2112986152}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.008726566, z: -0, w: 0.999962}
-  m_LocalPosition: {x: -0.009999768, y: 1.29, z: -0.14999916}
+  m_LocalPosition: {x: -0.009999768, y: 1.72, z: -0.14999916}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -23519,7 +23909,7 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
@@ -23694,7 +24084,7 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
@@ -24002,6 +24392,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2545382053540222413, guid: ee7fc763f819dff44869ecb7fe21c99f, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1420045087}
+    - targetCorrespondingSourceObject: {fileID: 2545382053540222413, guid: ee7fc763f819dff44869ecb7fe21c99f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1053885538}
     - targetCorrespondingSourceObject: {fileID: 2181763193838759812, guid: ee7fc763f819dff44869ecb7fe21c99f, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1076182798}
@@ -24053,6 +24446,7 @@ MonoBehaviour:
   - {fileID: 1493239311}
   - {fileID: 1158037542}
   - {fileID: 123727558}
+  manoHorror: {fileID: 5270124412727427025}
   anguloApertura: 180
   velocidad: 90
 --- !u!114 &5270124412727427025
@@ -24072,18 +24466,23 @@ MonoBehaviour:
   puntoArrastre: {fileID: 1983706613}
   mainCamera: {fileID: 666560885}
   xrOrigin: {fileID: 599477796}
+  puntoEntradaSegura: {fileID: 1053885538}
   puntoPalma: {fileID: 316757556}
   puntoAgarreVisor: {fileID: 1407143093}
+  rendererCubo: {fileID: 899931062}
   huesoEstirar: {fileID: 1077640149}
   escalaMaximaBrazo: 2
   offsetRotacionMano: {x: 0, y: 0, z: 0}
+  orientarJugadorHaciaMano: 1
+  duracionGiro: 0.35
   esperaAntesDeSalir: 0.5
   velocidadEstiramiento: 4
   esperaAlAgarrar: 0.3
   velocidadArrastre: 3.5
   distanciaFinal: 0.18
-  destinoPuerta: {fileID: 0}
-  esperaAntesDeAbrirJuego: 0.5
+  tiempoMaximoArrastre: 15
+  controladorJugador: {fileID: 1612528249}
+  destinoPuerta: {fileID: 1420045088}
 --- !u!1001 &5438307253301492301
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -24544,3 +24943,4 @@ SceneRoots:
   - {fileID: 140309397}
   - {fileID: 1865596232}
   - {fileID: 875652920}
+  - {fileID: 810024475}

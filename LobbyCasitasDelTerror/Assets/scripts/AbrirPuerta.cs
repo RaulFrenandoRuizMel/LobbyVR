@@ -8,6 +8,10 @@ public class AbrirPuerta : MonoBehaviour
     [Header("Partes que se mueven")]
     public Transform[] piezas;
 
+    [Header("Mano de esta puerta (opcional)")]
+    [Tooltip("Si asignas ManoHorror, se inicia cuando la puerta termina de abrirse.")]
+    public ManoHorror manoHorror;
+
     [Header("Apertura")]
     public float anguloApertura = -90f;
     public float velocidad = 90f;
@@ -111,6 +115,10 @@ public class AbrirPuerta : MonoBehaviour
                 gameObject.name +
                 " >>> PUERTA ABIERTA"
             );
+
+            // La mano sale DESPUES de terminar la apertura.
+            if (manoHorror != null)
+                manoHorror.IniciarSecuencia();
         }
     }
 
