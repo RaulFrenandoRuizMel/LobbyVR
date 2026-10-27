@@ -9,6 +9,9 @@ EditorBuildSettings:
     path: Assets/Scenes/SampleScene.unity
     guid: 99c9720ab356a0642a771bea13969a05
   - enabled: 1
+    path: Assets/Carlos/Carlos.unity
+    guid: 47a9a43baf3b0ca4b9ad7d59b63b66ba
+  - enabled: 0
     path: Assets/PRUEBARAUL.unity
     guid: 2242169b455eda64192be577a29840f0
   m_configObjects:
