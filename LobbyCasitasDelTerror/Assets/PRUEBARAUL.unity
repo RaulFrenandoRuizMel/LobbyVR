@@ -20356,7 +20356,7 @@ MonoBehaviour:
   lanzador: {fileID: 1339351478}
   packageName: com.casitasdelterror.equipo3
   activityName: com.unity3d.player.UnityPlayerGameActivity
-  rutaPC: ..\Equipos\EXEEQUIPO2\Mendigo.exe
+  rutaPC: ..\Equipos\EXEEQUIPO3\Obsesion Casa Terror.exe
   segundos: 1
 --- !u!1 &1817909390
 GameObject:
