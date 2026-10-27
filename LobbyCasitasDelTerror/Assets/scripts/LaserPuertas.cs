@@ -132,6 +132,40 @@ public class LaserPuertas : MonoBehaviour
             return;
 
 
+        bool demasBotones;
+        // Botón Secundario
+        if (controlDerecho.TryGetFeatureValue(
+                CommonUsages.secondaryButton, out demasBotones
+        )){
+            if (demasBotones)
+            {
+                botonA = true;
+            }
+        }
+
+        // Grip
+        if (controlDerecho.TryGetFeatureValue(
+                CommonUsages.gripButton, out demasBotones
+        ))
+        {
+            if (demasBotones)
+            {
+                botonA = true;
+            }
+        }
+
+        // Trigger
+        if (controlDerecho.TryGetFeatureValue(
+                CommonUsages.triggerButton, out demasBotones
+        ))
+        {
+            if (demasBotones)
+            {
+                botonA = true;
+            }
+        }
+
+
         // Cuando soltamos A,
         // permitimos detectar otra pulsacion.
         if (!botonA)
